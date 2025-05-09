@@ -1,0 +1,30 @@
+<div id="paginador" class="flex flex-row items-center h-16">
+  <div class="basis-1/2">
+    <p class="text-dark">
+      Mostrando de fila
+      <span class="fw-semibold">{{ initRange }}</span>
+      a
+      <span class="fw-semibold">{{ endRange }}</span>
+      de
+      <span class="fw-semibold">{{ total }}</span>
+      resultados
+    </p>
+  </div>
+  <div class="basis-1/2 shadow-xs flex justify-end">
+    @if (previousPage > 0) {
+    <button #previo (click)="onPreviousPage()" class="fw-bold text-decoration-none px-2 py-2 bg-transparent border-0">
+      Previo
+    </button>
+    } @else {
+    <label class="fw-bold text-decoration-none px-2 py-2 text-info">Previo</label>
+    }
+    <a class="px-4 py-2 text-decoration-none text-dark fw-bold">{{ page }}</a>
+    @if (nextPage <= totalPages ) { <button #siguiente (click)="onNextPage()"
+      class="fw-bold text-decoration-none px-2 py-2 bg-transparent border-0">
+      Siguiente
+      </button>
+      } @else {
+      <label class="fw-bold text-decoration-none px-2 py-2 text-info">Siguiente</label>
+      }
+  </div>
+</div>

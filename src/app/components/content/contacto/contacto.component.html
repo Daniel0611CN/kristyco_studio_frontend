@@ -1,0 +1,11 @@
+<section class="container text-center mt-5 pt-5">
+  <h2 class="mt-5">{{ title }}</h2>
+  <p class="mt-5 pt-5 fw-ligther" [innerHTML]="finalText"></p>
+  <ul class="d-flex list-unstyled justify-content-center mt-5 pt-5">
+    <li *ngFor="let link of links; let i = index">
+      <a [href]="link.link">
+        <i [ngClass]="links[i].label" style="font-size: 2rem; padding: 10px;" class="text-secondary"></i>
+      </a>
+    </li>
+  </ul>
+</section>

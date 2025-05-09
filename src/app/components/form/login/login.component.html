@@ -1,0 +1,33 @@
+<section class="d-flex justify-content-center align-items-center text-primary" style="height: calc(100vh - 135px);">
+  <div class="border-2 border-info rounded-4 p-4 bg-success" style="width: 400px;">
+    <h2 class="font2 fw-semibold">Inicio Sesión</h2>
+    <br>
+    <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <div class="form-group mb-3">
+        <label for="username" class="form-label">Usuario</label>
+        <input id="username" type="text" class="form-control" name="username" [(ngModel)]="form.username" required
+          #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
+        <div *ngIf="username.errors && f.submitted" class="invalid-feedback">
+          El username es requerido
+        </div>
+      </div>
+      <div class="form-group mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input id="password" type="password" class="form-control" name="password" [(ngModel)]="form.password" required
+          minlength="6" #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.errors }" />
+        <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="password.errors['required']">La password es requerida</div>
+          <div *ngIf="password.errors['minlength']">
+            La password debe ser de al menos 6 caracteres
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block m-3">
+          Iniciar Sesión
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

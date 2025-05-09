@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+$font-family-base: "Raleway", sans-serif;
+
+$beige: #f4e9df;
+$brown: #b0817e;
+$gray-light: #707070;
+$rose: #dda39d;
+$salmon: #e9c0a9;
+$melocoton: #f3d8cd;
+
+$primary: $beige;
+$secondary: $brown;
+$success: $rose;
+$info: $gray-light;
+$warning: $salmon;
+$danger: $melocoton;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
+);
+
+$body-text-align: center;
+$body-color: $secondary;
+$body-bg: $primary;
+
+$link-color: $secondary;
+
+$headings-font-family: "SophiaMorgant", sans-serif;
+$headings-line-height: 1.6;
+$h1-font-size: $font-size-base * 4.5;
+$h2-font-size: $font-size-base * 2;
+
+.bg-primary {
+  background-color: $beige !important;
+}
+
+.bg-secondary {
+  background-color: $brown !important;
+}
+
+.bg-success {
+  background-color: $rose !important;
+}
+
+.bg-info {
+  background-color: $gray-light !important;
+}
+
+.bg-warning {
+  background-color: $salmon !important;
+}
+
+.bg-danger {
+  background-color: $melocoton !important;
+}
+
+.text-primary {
+  color: $beige !important;
+}
+
+.text-secondary {
+  color: $brown !important;
+}
+
+.text-success {
+  color: $rose !important;
+}
+
+.text-info {
+  color: $gray-light !important;
+}
+
+.text-warning {
+  color: $salmon !important;
+}
+
+.text-danger {
+  color: $melocoton !important;
+}

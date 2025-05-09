@@ -1,0 +1,30 @@
+<section class="s1 container-xl mt-5">
+  <div class="font6">Invitación {{currentTitle}}</div>
+
+  <div class="container mx-auto mt-5 row justify-content-center">
+    <div *ngFor="let item of currentItems; let i = index" class="justify-content-center"
+      [ngClass]="{'col-md-6': itemsPerPage === 2, 'col-md-4': itemsPerPage === 3}">
+      <div class="card border-0 rounded-0 p-3 mt-4" style="transition: transform 0.3s ease;">
+        <button type=" button" class="btn btn-primary p-0 border-0" [attr.aria-controls]="'modal' + item.id">
+          <img [src]="item.src" class="car-img-top img-fluid" style="width: 100%;" alt="{{item.title}}" />
+        </button>
+
+        <div class="modal fade" [id]="'modal' + item.id" tabindex="-1" [attr.aria-labelledby]="'modalLabel' + item.id"
+          aria-hidden="true">
+          <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+              <div class="modal-body mt-5 pt-5">
+                <img [src]="item.src" class="img-fluid" style="width: 900px;" alt="{{item.title}}" />
+              </div>
+              <div class="modal-footer border-0 mb-5 pb-5 d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-success">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- .card:hover { transform: scale(1.02); } -->

@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-lg bg-light py-2 border-top border-secondary">
+  <div class="container text-center d-flex justify-content-center align-items-center">
+    <ul class="navbar-nav">
+      <li class="nav-item" *ngFor="let item of subnavItems">
+        <a class="nav-link font2 fw-bold text-secondary" [routerLink]="item.link" routerLinkActive="active">{{
+          item.label}}</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div>
+  <section class="container text-center mt-5 mb-5">
+    <div style="font-size: 3.5rem;"
+      class="col-md-6 mx-auto d-flex flex-column flex-xl-row justify-content-around align-items-center mt-5 fw-light">
+      <div class="d-inline-block font4">{{ title }}</div>
+      <div class="d-inline-block font1">{{ subtitle }}</div>
+    </div>
+    <p class="col-md-8 mx-auto mt-5 pt-5" [innerHTML]="finalText"></p>
+  </section>
+</div>

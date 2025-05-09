@@ -1,0 +1,7 @@
+<form (ngSubmit)="onSubmit()" class="d-flex w-100">
+  <input id="search" type="text" [(ngModel)]="searchInput" (keyup)="onUpdateField($event)" name="search"
+    placeholder="🔍︎ Buscar" class="border border-2 border-dark rounded-3 pt-1 pb-1 ps-2 form-control bg-light" />
+  <button class="me-2 pt-1 pb-1 border-0 bg-transparent" (click)="clearSearch()">
+    <i class="fa-solid fa-rotate-right"></i>
+  </button>
+</form>
