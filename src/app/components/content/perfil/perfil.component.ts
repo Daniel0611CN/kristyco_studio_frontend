@@ -18,7 +18,7 @@ export class PerfilComponent implements OnInit {
     apellido1: '',
     apellido2: '',
     email: '',
-    telefono: 0,
+    telefono: '',
     direccion: ''
   };
 

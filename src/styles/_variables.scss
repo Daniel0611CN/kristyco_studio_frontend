@@ -91,3 +91,7 @@ $h2-font-size: $font-size-base * 2;
 .text-danger {
   color: $melocoton !important;
 }
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bs-info);
+}

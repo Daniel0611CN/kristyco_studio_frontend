@@ -4,6 +4,6 @@ export interface Usuario {
   apellido1: string;
   apellido2: string;
   email: string;
-  telefono: number;
+  telefono: string;
   direccion: string;
 }

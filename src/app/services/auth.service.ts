@@ -31,7 +31,7 @@ export class AuthService {
     );
   }
 
-  register(username: string, apellido1: string, apellido2: string, email: string, telefono: number, direccion: string, password: string, rol: string) {
+  register(username: string, apellido1: string, apellido2: string, email: string, telefono: string, direccion: string, password: string, rol: string) {
     let registerRequest = {
       "username": username,
       "apellido1": apellido1,

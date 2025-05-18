@@ -11,6 +11,27 @@
 
 <body>
   <app-root></app-root>
+  <script>
+    let tooltipInstances = [];
+
+    function initTooltips() {
+      if (tooltipInstances.length) {
+        tooltipInstances.forEach(t => t.dispose());
+        tooltipInstances = [];
+      }
+
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach(el => {
+        const tooltip = new bootstrap.Tooltip(el);
+        tooltipInstances.push(tooltip);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTooltips();
+    });
+  </script>
+
 </body>
 
 </html>

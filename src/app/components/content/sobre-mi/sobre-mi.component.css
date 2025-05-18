@@ -1,0 +1,19 @@
+section p {
+  font-size: 0.85rem;
+  max-width: 300px;
+}
+@media only screen and (min-width: 768px) {
+  section p {
+    font-size: 1rem;
+    max-width: none;
+  }
+}
+
+div {
+  font-size: 2.5rem;
+}
+@media only screen and (min-width: 768px) {
+  div {
+    font-size: 3rem;
+  }
+}

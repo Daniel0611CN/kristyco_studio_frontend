@@ -15,6 +15,7 @@ import { Routes } from '@angular/router';
 import { SuccessComponent } from './components/shared/paypal/success/success.component';
 import { CancelComponent } from './components/shared/paypal/cancel/cancel.component';
 import { PaypalComponent } from './components/shared/paypal/paypal.component';
+import { ConfirmTokenComponent } from './components/confirm-token/confirm-token.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent, title: 'Inicio' },
@@ -38,6 +39,7 @@ export const routes: Routes = [
   { path: 'paypal', component: PaypalComponent, title: 'Paypal', canActivate: [canActivateUser] },
   { path: 'payment/success', component: SuccessComponent, title: 'Pago Exitoso', canActivate: [canActivateUser] },
   { path: 'payment/cancel', component: CancelComponent, title: 'Pago Cancelado', canActivate: [canActivateUser] },
+  { path: 'confirmar-token/:token', component: ConfirmTokenComponent, title: 'Confirmar Token' },
   { path: '', pathMatch: 'full', redirectTo: 'login' },
   { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];
