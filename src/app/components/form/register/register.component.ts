@@ -1,13 +1,13 @@
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.component.html'
 })
 export class RegisterComponent {
@@ -34,8 +34,10 @@ export class RegisterComponent {
           Validators.pattern('^(?=(?:.*[a-z]){3,})(?=(?:.*[A-Z]){2,})(?=(?:.*\\d){1,})(?=(?:.*[^a-zA-Z0-9]){1,}).{8,24}$')
         ]
       ],
-      rol: 'User'
-    }, { updateOn: 'change' });
+      rol: 'User',
+      privacy: [false, Validators.requiredTrue],
+      terms_conditions: [false, Validators.requiredTrue]
+    });
 
   }
 
@@ -45,6 +47,9 @@ export class RegisterComponent {
 
   errorMessage = '';
   roles: string[] = [];
+
+  showPassword = false;
+  togglePassword() { this.showPassword = !this.showPassword; }
 
   onSubmit(): void {
     if (this.registerForm.invalid) return;

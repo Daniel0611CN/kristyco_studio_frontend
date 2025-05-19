@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { StorageService } from '../../../services/storage.service';
 import { ERol } from '../../../models/enums/rol.enum';
@@ -13,7 +13,7 @@ declare function initTooltips(): void;
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, FormsModule],
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
   constructor() {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      rememberMe: [false]
     });
   }
 
@@ -52,14 +53,17 @@ export class LoginComponent implements OnInit {
     setTimeout(() => initTooltips(), 0);
   }
 
+  showPassword = false;
+  togglePassword() { this.showPassword = !this.showPassword; }
+
   onSubmit(): void {
     if (this.loginForm.invalid) return;
 
-    const { username, password } = this.loginForm.value;
+    const { username, password, rememberMe } = this.loginForm.value;
 
     this.authService.login(username, password).subscribe({
       next: data => {
-        this.storageService.saveUser(data);
+        this.storageService.saveUser(data, rememberMe);
         this.isLoggedIn = true;
         this.roles = this.storageService.getUser().roles;
         this.showForm = false;
@@ -130,6 +134,13 @@ export class LoginComponent implements OnInit {
     this.isLoginFailed = false;
     this.cd.detectChanges();
     setTimeout(() => { initTooltips(); }, 0);
+  }
+
+  resetEmail = '';
+
+  onPasswordReset() {
+    this.showForm = false;
+    console.log('Restablecer contraseña para', this.resetEmail);
   }
 
   get username() {

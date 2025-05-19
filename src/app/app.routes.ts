@@ -40,6 +40,6 @@ export const routes: Routes = [
   { path: 'payment/success', component: SuccessComponent, title: 'Pago Exitoso', canActivate: [canActivateUser] },
   { path: 'payment/cancel', component: CancelComponent, title: 'Pago Cancelado', canActivate: [canActivateUser] },
   { path: 'confirmar-token/:token', component: ConfirmTokenComponent, title: 'Confirmar Token' },
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: '**', pathMatch: 'full', redirectTo: 'login' }
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '**', pathMatch: 'full', redirectTo: 'home' }
 ];

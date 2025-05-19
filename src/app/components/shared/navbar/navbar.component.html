@@ -16,22 +16,10 @@
           </a>
         </li>
         <li>
-          <a class="nav-link active text-secondary" [routerLink]="'/login'">
+          <a class="nav-link active text-secondary" [routerLink]="'/login'" *ngIf="!isLoggedIn">
             <i class="fa-solid fa-right-to-bracket"></i>
           </a>
         </li>
-        <!-- <li class="nav-item dropdown" *ngIf="!isLoggedIn">
-          <a class="nav-link dropdown-toggle active text-secondary" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="fa-solid fa-right-to-bracket"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="nav-item" *ngFor="let item of dropdownItems; let isLast=last">
-              <a class="dropdown-item text-secondary bg-transparent" [routerLink]="item.link"
-                routerLinkActive="active text-decoration-underline">{{item.label}}</a>
-              <hr *ngIf="!isLast" class="dropdown-divider">
-            </li>
-          </ul>
-        </li> -->
         <li class="nav-item dropdown" *ngIf="isLoggedIn">
           <a class="nav-link dropdown-toggle active text-secondary" href="#" role="button" data-bs-toggle="dropdown">
             <i class="fa-solid fa-user"></i>

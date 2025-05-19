@@ -11,22 +11,24 @@ export class StorageService {
 
   clean(): void {
     window.sessionStorage.clear();
+    window.localStorage.clear();
   }
 
-  public saveUser(user: any): void {
+  public saveUser(user: any, rememberMe: boolean = false): void {
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    window.localStorage.removeItem(USER_KEY);
+
+    const storage = rememberMe ? window.localStorage : window.sessionStorage;
+    storage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   public getUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    if (user) return JSON.parse(user);
-    return {};
+    const user = window.localStorage.getItem(USER_KEY) || window.sessionStorage.getItem(USER_KEY);
+    return user ? JSON.parse(user) : {};
   }
 
   public isLoggedIn(): boolean {
-    const user = window.sessionStorage.getItem(USER_KEY);
-    return !!user;
+    return !!(window.localStorage.getItem(USER_KEY) || window.sessionStorage.getItem(USER_KEY));
   }
 
   public isAdmin(): boolean {
@@ -37,7 +39,6 @@ export class StorageService {
   public logout(): void {
     this.router.navigateByUrl('/login').then(
       () => {
-        // console.log(`Se ha cerrado la sesión del usuario ${this.getUser().username} correctamente.`);
         this.clean();
       }
     );
