@@ -95,3 +95,18 @@ $h2-font-size: $font-size-base * 2;
 .custom-tooltip {
   --bs-tooltip-bg: var(--bs-info);
 }
+
+.custom-tooltip.bs-tooltip-end .tooltip-arrow {
+  margin-left: 30px;
+}
+
+.custom-tooltip.bs-tooltip-end .tooltip-inner {
+  margin-left: 30px;
+}
+
+.b-0:focus,
+.b-0:active {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}

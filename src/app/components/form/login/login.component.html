@@ -1,6 +1,6 @@
 @if (showForm) {
-<section class="d-flex justify-content-center align-items-center text-primary" style="height: calc(100vh - 135px);">
-  <div class="border-2 border-info rounded-4 p-4 bg-success">
+<section class="d-flex justify-content-center align-items-center text-primary" style="min-height: calc(100vh - 135px);">
+  <div class="border-2 border-info rounded-4 p-3 bg-success m-3">
     <h2 class="font2 fw-semibold">Inicio Sesión</h2>
     <br>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
@@ -19,7 +19,7 @@
           <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
             formControlName="password"
             [ngClass]="{ 'is-invalid': password?.invalid && (password?.touched || password?.dirty) }" />
-          <button class="btn btn-outline-secondary bg-primary border-0" type="button" (click)="togglePassword()"
+          <button class="btn text-secondary bg-primary border-0" type="button" (click)="togglePassword()"
             aria-label="Mostrar u ocultar contraseña">
             <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
           </button>
@@ -44,7 +44,7 @@
           </label>
         </div>
         <div class="col-4 d-flex align-items-center justify-content-end">
-          <a href="#" class="btn p-0" data-bs-toggle="tooltip" data-bs-placement="right"
+          <a class="btn p-0 border-0 me-2" data-bs-toggle="tooltip" data-bs-placement="right"
             data-bs-custom-class="custom-tooltip"
             title="Si tu cuenta no está confirmada, revisa tu email. Si no, ingresa tus credenciales y pulsa el botón de 'Reenviar correo'.">
             <i class="fa-solid fa-circle-info"></i>
