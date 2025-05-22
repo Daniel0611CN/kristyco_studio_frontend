@@ -45,7 +45,7 @@ export class ResetPasswordComponent implements OnInit {
 
   verificarToken() {
     this.http.get<{ message: string, valid: boolean }>(
-      `http://localhost:8080/api/v1/confirmation_token/validate-reset-token?token=${this.token}`
+      `https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/validate-reset-token?token=${this.token}`
     ).subscribe({
       next: res => {
         this.isTokenValid = res.valid;
@@ -86,7 +86,7 @@ export class ResetPasswordComponent implements OnInit {
     if (!oldPassword) return;
 
     this.http.post<{ valid: boolean, message?: string }>(
-      'http://localhost:8080/api/v1/confirmation_token/validate-old-password',
+      'https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/validate-old-password',
       {
         token: this.token,
         oldPassword: oldPassword
@@ -119,7 +119,7 @@ export class ResetPasswordComponent implements OnInit {
 
     const { password } = this.resetForm.value;
 
-    this.http.put(`http://localhost:8080/api/v1/confirmation_token/reset-password`, {
+    this.http.put(`https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/reset-password`, {
       token: this.token,
       password: password
     }).subscribe({

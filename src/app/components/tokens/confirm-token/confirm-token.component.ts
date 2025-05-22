@@ -18,7 +18,7 @@ export class ConfirmTokenComponent {
     const token = this.route.snapshot.paramMap.get('token');
     console.log(token);
     if (token) {
-      this.httpClient.get<{ message: string }>(`http://localhost:8080/api/v1/confirmation_token/confirm-register?token=${token}`)
+      this.httpClient.get<{ message: string }>(`https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/confirm-register?token=${token}`)
         .subscribe({
           next: res => {
             this.mensaje = res.message || 'Cuenta confirmada correctamente.';

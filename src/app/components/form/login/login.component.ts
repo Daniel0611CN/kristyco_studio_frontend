@@ -157,7 +157,7 @@ export class LoginComponent implements OnInit {
   reenviarConfirmacion() {
     const username = this.loginForm.get('username')?.value;
 
-    this.httpClient.put(`http://localhost:8080/api/v1/confirmation_token/revalidate-token/${username}`, {})
+    this.httpClient.put(`https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/revalidate-token/${username}`, {})
       .subscribe({
         next: res => {
           Swal.fire({
@@ -184,7 +184,7 @@ export class LoginComponent implements OnInit {
 
     if (!this.email) return;
 
-    this.httpClient.put(`http://localhost:8080/api/v1/confirmation_token/request-reset-password`, null, {
+    this.httpClient.put(`https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/request-reset-password`, null, {
       params: { email: this.email?.value }
     }).subscribe({
       next: res => {
