@@ -14,7 +14,7 @@ export class ResetPasswordComponent implements OnInit {
   resetForm: FormGroup;
 
   isTokenValid: boolean = false;
-  oldPasswordValid: boolean = true;
+  // oldPasswordValid: boolean = true;
   token: string = '';
   mensaje: string = '';
 
@@ -25,7 +25,7 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor() {
     this.resetForm = this.fb.group({
-      oldPassword: ['', [Validators.required]],
+      // oldPassword: ['', [Validators.required]],
       password: [
         '',
         [
@@ -80,33 +80,33 @@ export class ResetPasswordComponent implements OnInit {
     return null;
   }
 
-  validateOldPassword(): void {
-    const oldPassword = this.oldPassword?.value;
+  // validateOldPassword(): void {
+  //   const oldPassword = this.oldPassword?.value;
 
-    if (!oldPassword) return;
+  //   if (!oldPassword) return;
 
-    this.http.post<{ valid: boolean, message?: string }>(
-      'https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/validate-old-password',
-      {
-        token: this.token,
-        oldPassword: oldPassword
-      }
-    ).subscribe({
-      next: (res) => {
-        this.oldPasswordValid = res.valid;
-        if (!res.valid) {
-          this.resetForm.get('oldPassword')?.setErrors({ incorrect: true });
-        } else {
-          // Limpia el error si es válido
-          this.resetForm.get('oldPassword')?.setErrors(null);
-        }
-      },
-      error: () => {
-        this.oldPasswordValid = false;
-        this.resetForm.get('oldPassword')?.setErrors({ incorrect: true });
-      }
-    });
-  }
+  //   this.http.post<{ valid: boolean, message?: string }>(
+  //     'https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/validate-old-password',
+  //     {
+  //       token: this.token,
+  //       oldPassword: oldPassword
+  //     }
+  //   ).subscribe({
+  //     next: (res) => {
+  //       this.oldPasswordValid = res.valid;
+  //       if (!res.valid) {
+  //         this.resetForm.get('oldPassword')?.setErrors({ incorrect: true });
+  //       } else {
+  //         // Limpia el error si es válido
+  //         this.resetForm.get('oldPassword')?.setErrors(null);
+  //       }
+  //     },
+  //     error: () => {
+  //       this.oldPasswordValid = false;
+  //       this.resetForm.get('oldPassword')?.setErrors({ incorrect: true });
+  //     }
+  //   });
+  // }
 
   showPassword: boolean = false;
 
@@ -142,7 +142,7 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  get oldPassword() { return this.resetForm.get('oldPassword'); }
+  // get oldPassword() { return this.resetForm.get('oldPassword'); }
   get password() { return this.resetForm.get('password'); }
   get confirmPassword() { return this.resetForm.get('confirmPassword'); }
 }
