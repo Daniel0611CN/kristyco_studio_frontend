@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Page } from '../models/interfaces/page.interface';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Pedido } from '../models/interfaces/entities/pedido.interface';
 
 @Injectable({

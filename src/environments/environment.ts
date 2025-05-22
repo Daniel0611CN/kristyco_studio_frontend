@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   // SPRING BOOT BACKEND URL
-  apiUrl: ''
+  apiUrl: 'https://kristyco-studio-proyect.onrender.com'
 };
 

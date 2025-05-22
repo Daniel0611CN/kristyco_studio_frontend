@@ -10,20 +10,23 @@ import { PerfilComponent } from './components/content/perfil/perfil.component';
 import { AdminComponent } from './components/content/admin/admin.component';
 import { HomeComponent } from './components/content/home/home.component';
 import { LoginComponent } from './components/form/login/login.component';
-import { canActivateAdmin, canActivateUser } from './security/authguard';
+import { canActivateAdmin, canActivateUser, cannotActivateLoggedUser } from './security/authguard';
 import { Routes } from '@angular/router';
 import { SuccessComponent } from './components/shared/paypal/success/success.component';
 import { CancelComponent } from './components/shared/paypal/cancel/cancel.component';
 import { PaypalComponent } from './components/shared/paypal/paypal.component';
-import { ConfirmTokenComponent } from './components/confirm-token/confirm-token.component';
+import { ConfirmTokenComponent } from './components/tokens/confirm-token/confirm-token.component';
+import { PrivacyPolicyComponent } from './components/content/privacy-policy/privacy-policy.component';
+import { TermsAndConditionsComponent } from './components/content/terms-and-conditions/terms-and-conditions.component';
+import { ResetPasswordComponent } from './components/tokens/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent, title: 'Inicio' },
   { path: 'colecciones', component: ColeccionComponent, title: 'Colecciones' },
   { path: 'sobre-mi', component: SobreMiComponent, title: 'Sobre-Mi' },
   { path: 'contacto', component: ContactoComponent, title: 'Contacto' },
-  { path: 'login', component: LoginComponent, title: 'Inicio de Sesión' },
-  { path: 'register', component: RegisterComponent, title: 'Registro' },
+  { path: 'login', component: LoginComponent, title: 'Inicio de Sesión', canActivate: [cannotActivateLoggedUser] },
+  { path: 'register', component: RegisterComponent, title: 'Registro', canActivate: [cannotActivateLoggedUser] },
   { path: 'perfil', component: PerfilComponent, title: 'Perfil', canActivate: [canActivateUser] },
   { path: 'invitaciones', component: InvitacionComponent, title: 'Invitaciones' },
   { path: 'admin', component: AdminComponent, title: 'Admin', canActivate: [canActivateAdmin] },
@@ -40,6 +43,9 @@ export const routes: Routes = [
   { path: 'payment/success', component: SuccessComponent, title: 'Pago Exitoso', canActivate: [canActivateUser] },
   { path: 'payment/cancel', component: CancelComponent, title: 'Pago Cancelado', canActivate: [canActivateUser] },
   { path: 'confirmar-token/:token', component: ConfirmTokenComponent, title: 'Confirmar Token' },
+  { path: 'reset-password/:token', component: ResetPasswordComponent, title: 'Restablecer Contraseña' },
+  { path: 'politica-privacidad', component: PrivacyPolicyComponent, title: 'Política de Privacidad' },
+  { path: 'terminos-condiciones', component: TermsAndConditionsComponent, title: 'Términos y Condiciones' },
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: '**', pathMatch: 'full', redirectTo: 'home' }
 ];

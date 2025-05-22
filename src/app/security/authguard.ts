@@ -21,3 +21,13 @@ export const canActivateUser: CanActivateFn = (
 
   return storageService.isLoggedIn() || router.createUrlTree(['/home']);
 }
+
+export const cannotActivateLoggedUser: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const storageService = inject(StorageService);
+  const router = inject(Router);
+
+  return !storageService.isLoggedIn() || router.createUrlTree(['/home']);
+}

@@ -27,7 +27,7 @@
               [ngClass]="{ 'is-invalid': email?.invalid && email?.touched }">
             <div class="invalid-feedback" *ngIf="email?.touched && email?.invalid">
               <div *ngIf="email?.errors?.['required']">El correo es obligatorio</div>
-              <div *ngIf="email?.errors?.['pattern']">El email debe ser gmail.com</div>
+              <div *ngIf="email?.errors?.['pattern']">El email debe tener un formato válido</div>
             </div>
           </div>
         </div>
@@ -48,7 +48,8 @@
               <div *ngIf="password?.errors?.['maxlength']">La contraseña no puede superar los 24
                 caracteres</div>
               <div *ngIf="password?.errors?.['pattern']">
-                La contraseña debe contener al menos 3 letras minúsculas, 2 mayúsculas, 1 número y 1 carácter especial
+                La contraseña debe contener al menos: <br> 3 letras minúsculas, <br> 2 mayúsculas, <br> 1 número y <br>
+                1 carácter especial
               </div>
             </div>
           </div>
@@ -102,8 +103,8 @@
         <div class="form-check d-flex align-items-center">
           <input class="form-check-input" type="checkbox" id="privacy" formControlName="privacy" />
           <label class="form-check-label ms-2 mb-0 mt-1" for="privacy">
-            Confirmo que se me ha info rmado sobre la
-            <a href="#" class="text-light">Política de Privacidad</a>.
+            Confirmo que se me ha informado sobre la
+            <a [routerLink]="'/politica-privacidad'" class="text-light">Política de Privacidad</a>.
           </label>
         </div>
 
@@ -111,7 +112,7 @@
           <input class="form-check-input" type="checkbox" id="terms_conditions" formControlName="terms_conditions" />
           <label class="form-check-label ms-2 mb-0 mt-1" for="terms_conditions">
             He leído y acepto los
-            <a href="#" class="text-light">Términos y Condiciones</a>.
+            <a [routerLink]="'/terminos-condiciones'" class="text-light">Términos y Condiciones</a>.
           </label>
         </div>
 

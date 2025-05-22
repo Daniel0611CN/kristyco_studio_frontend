@@ -18,6 +18,7 @@ declare function initTooltips(): void;
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  resetEmailForm: FormGroup;
 
   storageService = inject(StorageService);
   authService = inject(AuthService);
@@ -32,6 +33,9 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required],
       rememberMe: [false]
+    });
+    this.resetEmailForm = this.fb.group({
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@gmail\\.com$')]]
     });
   }
 
@@ -138,17 +142,16 @@ export class LoginComponent implements OnInit {
 
   resetEmail = '';
 
-  onPasswordReset() {
-    this.showForm = false;
-    console.log('Restablecer contraseña para', this.resetEmail);
-  }
-
   get username() {
     return this.loginForm.get('username');
   }
 
   get password() {
     return this.loginForm.get('password');
+  }
+
+  get email() {
+    return this.resetEmailForm.get('email');
   }
 
   reenviarConfirmacion() {
@@ -175,5 +178,58 @@ export class LoginComponent implements OnInit {
         }
       });
   }
+
+  onPasswordReset() {
+    this.showForm = false;
+
+    if (!this.email) return;
+
+    this.httpClient.put(`http://localhost:8080/api/v1/confirmation_token/request-reset-password`, null, {
+      params: { email: this.email?.value }
+    }).subscribe({
+      next: res => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Correo enviado',
+          text: 'Se ha enviado el enlace de restablecimiento. Revisa tu correo.',
+          confirmButtonText: 'Aceptar'
+        }).then(() => this.onReload());
+      },
+      error: err => {
+        console.error(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.error.message || 'No se pudo enviar el correo. Intenta de nuevo.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    });
+  }
+
+
+  // Implementar en el Perfil:
+
+      // <div class="form-group mb-2">
+      //   <label for="oldPassword" class="form-label">Antigua Contraseña</label>
+      //   <div class="input-group">
+      //     <input id="oldPassword" [type]="showPassword ? 'text' : 'password'" class="form-control"
+      //       (blur)="validateOldPassword()" formControlName="oldPassword"
+      //       [ngClass]="{ 'is-invalid': oldPassword?.invalid && (oldPassword?.touched || oldPassword?.dirty) }" />
+      //     <button class="btn text-secondary bg-primary border-0" type="button" (click)="togglePassword()"
+      //       aria-label="Mostrar u ocultar contraseña">
+      //       <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+      //     </button>
+      //   </div>
+      //   <div *ngIf="oldPassword?.invalid && (oldPassword?.touched || oldPassword?.dirty)"
+      //     class="invalid-feedback d-block">
+      //     <div *ngIf="oldPassword?.errors?.['required']">
+      //       La contraseña es obligatoria.
+      //     </div>
+      //     <div *ngIf="oldPassword?.errors?.['incorrect']">
+      //       La contraseña introducida no es correcta.
+      //     </div>
+      //   </div>
+      // </div>
 
 }

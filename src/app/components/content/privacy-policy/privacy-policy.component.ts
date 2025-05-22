@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-privacy-policy',
   imports: [],
-  templateUrl: './privacy-policy.component.html',
-  styleUrl: './privacy-policy.component.css'
+  templateUrl: './privacy-policy.component.html'
 })
-export class PrivacyPolicyComponent {
-
-}
+export class PrivacyPolicyComponent {}
