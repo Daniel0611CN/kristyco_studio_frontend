@@ -23,7 +23,7 @@ export class RegisterComponent {
       username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
       apellido1: ['', [Validators.required, Validators.maxLength(20)]],
       apellido2: ['', [Validators.maxLength(20)]],
-      email: ['', [Validators.required, Validators.pattern("^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$")]],
+      email: ['', [Validators.required, Validators.pattern("[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-]([\.]?[a-zA-Z0-9!#$%&'*\/=?^_`\{\|\}~\+\-])+@[a-zA-Z0-9]([^@&%$\/\(\)=?¿!\.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{3})?")]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       direccion: ['', [Validators.required]],
       password: [
