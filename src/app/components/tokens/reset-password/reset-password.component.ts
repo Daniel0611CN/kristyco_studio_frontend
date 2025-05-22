@@ -109,9 +109,14 @@ export class ResetPasswordComponent implements OnInit {
   // }
 
   showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
-  togglePassword() {
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPassword(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   onSubmit() {
