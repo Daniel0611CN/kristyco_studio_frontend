@@ -1,0 +1,175 @@
+<div class="container-fluid">
+  <div class="text-center fs-2 pt-5 pb-2">{{ title() }}</div>
+
+  <div class="container">
+    <div class="row d-flex justify-content-between align-items-center mb-4">
+      <div class="d-none d-md-block col-4" style="max-width: 350px;">
+        <app-search (search)="onSearch($event)"></app-search>
+      </div>
+
+      <div class="d-none d-md-block col-2">
+        <button class="btn btn-outline-success rounded-0" data-bs-toggle="modal" data-bs-target="#formModal"
+          (click)="openCreateModal()">Crear
+          Invitación</button>
+      </div>
+
+      <div class="d-md-none d-flex justify-content-center pb-4 mt-4">
+        <button class="btn btn-outline-success rounded-0" data-bs-toggle="modal" data-bs-target="#formModal"
+          (click)="openCreateModal()">Crear Invitación
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-between mb-4 d-md-none">
+        <app-search (search)="onSearch($event)" class="flex-grow-1"></app-search>
+      </div>
+    </div>
+
+    <div class="table-responsive d-none d-md-block transition-opacity">
+      <table class="table table-hover">
+        <thead>
+          <tr class="text-center text-dark">
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'ID'" [fieldQueryInput]="'id'"
+                (orderOuput)="onChangeOrder($event)">
+              </app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Nombre'" [fieldQueryInput]="'nombre'"
+                (orderOuput)="onChangeOrder($event)">
+              </app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Descripción'"
+                [fieldQueryInput]="'descripcion'" (orderOuput)="onChangeOrder($event)">
+              </app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Precio'" [fieldQueryInput]="'precio'"
+                (orderOuput)="onChangeOrder($event)">
+              </app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Stock'" [fieldQueryInput]="'stock'"
+                (orderOuput)="onChangeOrder($event)">
+              </app-column-sort>
+            </th>
+            <th>
+              Acciones
+              <button class="border-0 bg-transparent" (click)="onClearOrder()">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (listaProductos().length > 0) {
+          @for (producto of listaProductos(); track producto.id) {
+          <tr class="text-center">
+            <td>{{ producto.id }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio | currency:'EUR' }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>
+              <button class="bg-transparent border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#formModal"
+                (click)="openEditModal(producto)">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <!-- <button class="bg-transparent border-0 text-secondary" (click)="confirmDelete(producto.id)">
+                <i class="fa-solid fa-trash"></i>
+              </button> -->
+            </td>
+          </tr>
+          }
+          } @else {
+          <tr>
+            <td [attr.colspan]="6" class="text-center">Ninguna invitación encontrada.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="d-md-none">
+      @if (listaProductos().length > 0) {
+      <div class="row fw-bold mb-3 px-2">
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'ID'" [fieldQueryInput]="'id'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Coste'" [fieldQueryInput]="'nombre'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Dirección'" [fieldQueryInput]="'descripcion'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Estado'" [fieldQueryInput]="'precio'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Fecha'" [fieldQueryInput]="'stock'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-12 d-flex align-items-center justify-content-end pt-2 border-top">
+          <button class="border-0 bg-transparent" (click)="onClearOrder()"><i class="fa-solid fa-ban"></i></button>
+        </div>
+      </div>
+
+      @for (invitacion of listaProductos(); track invitacion.id) {
+      <div class="card mb-3 rounded shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title fw-bolder mb-3 font2">Invitación {{ invitacion.nombre }}</h5>
+          <p class="card-text text-muted">{{ invitacion.descripcion }}</p>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-success-subtle text-success-emphasis rounded-pill fs-6">{{ invitacion.precio |
+              currency:'EUR' }}</span>
+            <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill">Stock: {{ invitacion.stock
+              }}</span>
+          </div>
+          <div class="d-flex justify-content-end border-top pt-2">
+            <button class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#formModal"
+              (click)="openEditModal(invitacion)">
+              <i class="fa-solid fa-pen-to-square"></i> Editar
+            </button>
+            <!-- <button class="btn btn-sm btn-outline-secondary" (click)="confirmDelete(invitacion.id)">
+              <i class="fa-solid fa-trash"></i> Eliminar
+            </button> -->
+          </div>
+        </div>
+      </div>
+      }
+      } @else {
+      <td [attr.colspan]="6" class="text-center">Ninguna invitación encontrada.</td>
+      }
+    </div>
+
+    @if (listaProductos().length > 0) {
+    <div class="mt-4 d-flex justify-content-center">
+      <app-paginator [pageInput]="page()" [sizeInput]="pageSize()" [totalInput]="totalSize()"
+        (pageOuput)="onChangePage($event)"></app-paginator>
+    </div>
+    }
+
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          @if (showFormModal()) {
+          <app-invitacion-form [mode]="formMode()" [formData]="currentProducto()" [categorias]="categorias()"
+            [proveedores]="proveedores()" (formSubmit)="handleFormSubmit($event)"
+            (cancel)="closeModals()"></app-invitacion-form>
+          }
+        </div>
+      </div>
+    </div>
+
+
+  </div>

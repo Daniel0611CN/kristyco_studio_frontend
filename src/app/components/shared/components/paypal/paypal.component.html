@@ -1,0 +1,66 @@
+@if (showFormPaypal) {
+<div class="container-fluid d-flex flex-column justify-content-center align-items-center p-4 mt-5 pt-5"
+  style="background-color: #f4e9df;">
+  <div class="card shadow-sm"
+    style="border: 1px solid #b0817e; border-radius: 0.75rem; background-color: #ffffff; width: 100%; max-width: 500px;">
+    <div class="card-header" style="background-color: transparent; border-bottom: 1px solid #e9c0a9;">
+      <h2 class="font2 fw-bold text-center my-2" style="color: #707070;">Pago de Pedido</h2>
+    </div>
+    <div class="card-body p-4">
+      <form [formGroup]="paypalForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="method" class="form-label font2 fw-bold">Método de pago</label>
+          <input id="method" type="text" formControlName="method" readonly class="form-control"
+            style="border-color: #b0817e; background-color: #f8f9fa;">
+        </div>
+        <div class="mb-3">
+          <label for="amount" class="form-label font2 fw-bold">Monto</label>
+          <input id="amount" type="number" formControlName="amount" readonly class="form-control"
+            style="border-color: #b0817e; background-color: #f8f9fa;">
+        </div>
+        <div class="mb-3">
+          <label for="currency" class="form-label font2 fw-bold">Moneda</label>
+          <select id="currency" formControlName="currency" class="form-select" style="border-color: #b0817e;">
+            <option value="EUR" selected>EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="description" class="form-label font2 fw-bold">Descripción (Concepto)</label>
+          <input id="description" type="text" formControlName="description" class="form-control"
+            placeholder="Ej: Pedido de invitaciones" style="border-color: #b0817e;">
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn"
+            style="background-color: #00457C; color: white; font-weight: bold; transition: background-color 0.2s ease-in-out;"
+            onmouseover="this.style.backgroundColor='#003057'" onmouseout="this.style.backgroundColor='#00457C'">
+            <i class="fa-brands fa-paypal me-2"></i>Pagar con PayPal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+}@else if (procesando) {
+<div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
+  <img src="/img/loading-spinner.gif" alt="Procesando pago" class="mb-4">
+  <p class="fs-4 text-muted">Procesando pago...</p>
+</div>
+} @else if (cancelado) {
+<div class="alert alert-danger" role="alert">
+  <strong class="fw-bold">¡Pago cancelado!</strong>
+  <span class="d-block">El proceso de pago ha sido cancelado. Por favor, inténtelo nuevamente si lo desea.</span>
+</div>
+<div class="mt-4">
+  <a (click)="onClose()" class="btn btn-primary">Cerrar</a>
+</div>
+} @else {
+<div class="alert alert-success" role="alert">
+  <strong class="fw-bold">¡Éxito!</strong>
+  <span class="d-block">Tu pago con PayPal se procesó correctamente.</span>
+</div>
+<div class="mt-4">
+  <a (click)="onClose()" class="btn btn-primary">Cerrar</a>
+</div>
+}

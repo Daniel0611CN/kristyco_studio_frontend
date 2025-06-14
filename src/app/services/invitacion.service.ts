@@ -13,31 +13,43 @@ export class ProductoService {
 
   httpClient = inject(HttpClient);
 
-   getWithFilters(orderOutput?: { fieldQuery: string; order: string }, page?: number, search?: string, size: number = 10): Observable<Page<Producto> | Producto[]> {
-      let queryParams: { sort?: string; page?: number; size?: number; nombre?: string; } = {};
+  getWithFilters(orderOuput?: { fieldQuery: string; order: string }, page?: number, search?: string, size: number = 10): Observable<Page<Producto> | Producto[]> {
+    let queryParams: { sort?: string; page?: number; size?: number; nombre?: string; } = {};
 
-      if (orderOutput) {
-        queryParams.sort = orderOutput.fieldQuery + ',' + orderOutput.order;
-      }
-
-      if (page) {
-        queryParams.page = page - 1;
-        queryParams.size = size;
-      }
-
-      if (search) {
-        queryParams.nombre = search;
-      }
-
-      return this.httpClient.get<Page<Producto> | Producto[]>(this.apiProductoUrl, { params: queryParams });
+    if (orderOuput) {
+      queryParams.sort = orderOuput.fieldQuery + ',' + orderOuput.order;
     }
+
+    if (page) {
+      queryParams.page = page - 1;
+      queryParams.size = size;
+    }
+
+    if (search) {
+      queryParams.nombre = search;
+    }
+
+    return this.httpClient.get<Page<Producto> | Producto[]>(this.apiProductoUrl, { params: queryParams });
+  }
+
+  getAll(): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiProductoUrl}/list`);
+  }
 
   get(id: string): Observable<any> {
     return this.httpClient.get<any>(`${this.apiProductoUrl}/${id}`);
   }
 
-  // create(pedido: Pedido): Observable<Pedido> {
-  //     return this.httpClient.post<Pedido>(this.apiPedidoUrl, pedido);
-  // }
+  create(producto: Producto): Observable<Producto> {
+    return this.httpClient.post<Producto>(this.apiProductoUrl, producto);
+  }
+
+  update(id: number, producto: Producto): Observable<Producto> {
+    return this.httpClient.put<Producto>(`${this.apiProductoUrl}/${id}`, producto);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiProductoUrl}/${id}`);
+  }
 
 }

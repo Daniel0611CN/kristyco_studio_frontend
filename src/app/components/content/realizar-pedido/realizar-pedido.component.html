@@ -1,0 +1,89 @@
+<div class="container-fluid py-5" style="background-color: #f4e9df; font-family: 'Inter', sans-serif;">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+      <div class="card shadow-lg rounded-4" style="border: 1px solid #b0817e; background-color: #ffffff;">
+        <div class="card-header text-center" style="background-color: transparent; border-bottom: 1px solid #e9c0a9;">
+          <h2 class="font2 fw-bold my-2" style="color: #707070;">Crea tu Nuevo Pedido</h2>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <h5 class="font2 fw-bold mb-3" style="color: #b0817e;">1. Detalles de Envío</h5>
+
+            <div class="mb-3">
+              <label for="direccion" class="form-label font2 fw-bold">Dirección Completa</label>
+              <input type="text" id="direccion" class="form-control" formControlName="direccion"
+                placeholder="Calle, número, piso, puerta..."
+                [ngClass]="{ 'is-invalid': pedidoForm.get('direccion')?.invalid && pedidoForm.get('direccion')?.touched }"
+                style="border: 1px solid #b0817e;">
+              <div class="invalid-feedback"
+                *ngIf="pedidoForm.get('direccion')?.invalid && pedidoForm.get('direccion')?.touched">
+                <div *ngIf="pedidoForm.get('direccion')?.hasError('required')">La dirección es obligatoria.</div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="ciudad" class="form-label font2 fw-bold">Ciudad</label>
+                <input type="text" id="ciudad" class="form-control" formControlName="ciudad"
+                  [ngClass]="{ 'is-invalid': pedidoForm.get('ciudad')?.invalid && pedidoForm.get('ciudad')?.touched }"
+                  style="border: 1px solid #b0817e;">
+                <div class="invalid-feedback"
+                  *ngIf="pedidoForm.get('ciudad')?.invalid && pedidoForm.get('ciudad')?.touched">
+                  <div *ngIf="pedidoForm.get('ciudad')?.hasError('required')">La ciudad es obligatoria.</div>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="codigoPostal" class="form-label font2 fw-bold">Código Postal</label>
+                <input type="text" id="codigoPostal" class="form-control" formControlName="codigoPostal"
+                  [ngClass]="{ 'is-invalid': pedidoForm.get('codigoPostal')?.invalid && pedidoForm.get('codigoPostal')?.touched }"
+                  style="border: 1px solid #b0817e;">
+                <div class="invalid-feedback"
+                  *ngIf="pedidoForm.get('codigoPostal')?.invalid && pedidoForm.get('codigoPostal')?.touched">
+                  <div *ngIf="pedidoForm.get('codigoPostal')?.hasError('required')">El código postal es obligatorio.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" style="border-color: #f3d8cd; opacity: 1;">
+
+            <h5 class="font2 fw-bold mb-3" style="color: #b0817e;">2. Selección de Productos</h5>
+
+            <div class="mb-4">
+              <label for="productoIds" class="form-label font2 fw-bold">Invitaciones</label>
+              <select id="productoIds" class="form-select" formControlName="productoIds" multiple size="5"
+                [ngClass]="{ 'is-invalid': pedidoForm.get('productoIds')?.invalid && pedidoForm.get('productoIds')?.touched }"
+                style="border: 1px solid #b0817e;">
+                @for(invitacion of listaInvitaciones; track invitacion.id) {
+                <option [value]="invitacion.id">{{ invitacion.nombre }} - {{ invitacion.precio | currency:'EUR' }}
+                </option>
+                }
+              </select>
+              <div class="invalid-feedback"
+                *ngIf="pedidoForm.get('productoIds')?.invalid && pedidoForm.get('productoIds')?.touched">
+                <div *ngIf="pedidoForm.get('productoIds')?.hasError('required')">Debes seleccionar al menos una
+                  invitación.</div>
+              </div>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn font2 fw-bold" [disabled]="pedidoForm.invalid"
+                [style.backgroundColor]="pedidoForm.invalid ? '#e0e0e0' : '#dda39d'"
+                [style.color]="pedidoForm.invalid ? '#9e9e9e' : 'white'"
+                [style.cursor]="pedidoForm.invalid ? 'not-allowed' : 'pointer'"
+                style="border: none; padding: 0.6rem 1rem; font-size: 1.05rem; transition: background-color 0.2s ease-in-out;"
+                onmouseover="if (!this.disabled) this.style.backgroundColor='#c88e88'"
+                onmouseout="if (!this.disabled) this.style.backgroundColor='#dda39d'">
+                <span *ngIf="!cargando">Continuar a PayPal</span>
+                <span *ngIf="cargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="cargando"> Procesando...</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

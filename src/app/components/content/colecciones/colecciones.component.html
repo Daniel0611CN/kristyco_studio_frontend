@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg bg-light py-2 border-top border-secondary">
+  <div class="container text-center d-flex justify-content-center align-items-center">
+    <ul class="navbar-nav">
+      @for (item of subnavItems; track $index) {
+      <li class="nav-item">
+        <a class="nav-link font2 fw-bold text-secondary" [routerLink]="item.link" routerLinkActive="active">{{
+          item.label}}</a>
+      </li>
+      }
+    </ul>
+  </div>
+</nav>
+
+<div class="container text-center mt-5 pt-5">
+  <h1 class="font6 fw-normal mb-5 pb-2" style="font-size: 3.5rem;">Invitaciones de Colección</h1>
+  <p class="text-muted mb-5 pb-3 px-3 px-md-5 mx-md-5">
+    En Kristy&Co Studio creemos que lo bello no pasa de moda. Por eso, nuestras colecciones de papelería para bodas
+    están diseñadas con un estilo atemporal: piezas delicadas, elegantes y con alma, que conservan su esencia más allá
+    de las tendencias del momento.
+    Cada diseño está pensado para contar su historia con calidez, sencillez y autenticidad.. Hoy, mañana y siempre.
+  </p>
+
+
+  <div class="d-flex flex-column gap-3 pt-3 align-items-center">
+
+    <div class="w-75 w-md-50 mx-auto">
+      <button class="btn btn-outline-warning text-dark border-dark px-4 py-2 w-50 mb-2"
+        [routerLink]="'/colecciones/aire'">
+        Colección Aire
+      </button>
+    </div>
+
+    <div class="w-75 w-md-50 mx-auto">
+      <button class="btn btn-outline-warning text-dark border-dark px-4 w-50 py-2 mb-2"
+        [routerLink]="'/colecciones/aqua'">
+        Colección Aqua
+      </button>
+    </div>
+
+    <div class="w-75 w-md-50 mx-auto">
+      <button class="btn btn-outline-warning text-dark border-dark px-4 py-2 w-50 mb-2"
+        [routerLink]="'/colecciones/nature'">
+        Colección Nature
+      </button>
+    </div>
+
+  </div>
+</div>

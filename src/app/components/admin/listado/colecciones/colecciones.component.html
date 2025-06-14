@@ -1,0 +1,72 @@
+<div class="text-center fs-2 p-5">{{ title }}</div>
+
+<div class="container">
+  <div class="d-flex justify-content-start">
+    <button class="btn btn-outline-success rounded-0" data-bs-toggle="modal" data-bs-target="#formModal"
+      (click)="selectedItem.set(null)">
+      Crear Colección
+    </button>
+  </div>
+
+  <table class="table table-hover mt-3">
+    <thead>
+      <tr>
+        @for (col of columnas; track col.key) {
+        <th>{{ col.label }}</th>
+        }
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of colecciones(); track row.id) {
+      <tr>
+        @for (col of columnas; track col.key) {
+        <td>{{ row[col.key] }}</td>
+        }
+        <td>
+          <button class="bg-transparent border-0 text-secondary" data-bs-toggle="modal" data-bs-target="#formModal"
+            (click)="selectedItem.set(row)">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+          <!-- <button class="bg-transparent border-0" data-bs-toggle="modal" data-bs-target="#deleteModal"
+            (click)="selectedItem.set(row)">
+            <i class="fa-solid fa-trash text-secondary fs-5"></i>
+          </button> -->
+        </td>
+      </tr>
+      } @empty {
+      <tr>
+        <td [attr.colspan]="columnas.length + 1" class="text-center">No hay colecciones para mostrar.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <app-coleccion-form [coleccion]="selectedItem()" (save)="handleSave($event)" />
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Colección</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          @if (selectedItem(); as item) {
+          <p>¿Está seguro de que desea eliminar la colección <strong>{{ item.nombre }}</strong>?</p>
+          }
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="handleDelete()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>

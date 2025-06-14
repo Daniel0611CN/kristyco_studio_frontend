@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand p-0" [routerLink]="navItems[0].link" routerLinkActive="active">
+      <img src="img/icon.png" alt="logo" class="img-fluid" style="width: 125px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        @for (item of navItems; track $index) {
+        <li class="nav-item" routerLinkActive="nav-underline">
+          <a class="nav-link f3 fw-bold text-secondary" [routerLink]="item.link"
+            routerLinkActive="active nav-underline">
+            {{ item.label }}
+          </a>
+        </li>
+        }
+        <li>
+          @if (!isLoggedIn) {
+          <a class="nav-link active text-secondary" [routerLink]="'/login'">
+            <i class="fa-solid fa-right-to-bracket"></i>
+          </a>
+          }
+        </li>
+        @if (isLoggedIn) {
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active text-secondary" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-user"></i>
+          </a>
+          <ul class="dropdown-menu">
+            @for (dropdownItem of dropdownConfigItems; track $index; let last = $last) {
+            <li class="nav-item" routerLinkActive="text-decoration-underline">
+              @if (isAdmin && (dropdownItem.label == "Administración" || dropdownItem.label == "Perfil")) {
+              <a class="dropdown-item text-secondary" style="background-color: transparent;"
+                [routerLink]="dropdownItem.link">
+                {{ dropdownItem.label }}
+              </a>
+              @if ($index != dropdownConfigItems.length - 1) {
+              <hr class="dropdown-divider">
+              }
+              } @else if (!isAdmin && dropdownItem.label != "Administración" && dropdownItem.label != "Cerrar Sesión") {
+              <a class="dropdown-item text-secondary" [routerLink]="dropdownItem.link"
+                style="background-color: transparent;">
+                {{ dropdownItem.label }}
+              </a>
+              @if($index != dropdownConfigItems.length - 1) {
+              <hr class="dropdown-divider">
+              }
+              } @else if ($last) {
+              <a class="dropdown-item text-secondary" [routerLink]="dropdownItem.link"
+                style="background-color: transparent;" (click)="logout()">
+                {{ dropdownItem.label }}
+              </a>
+              }
+            </li>
+            }
+          </ul>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>
+
+@if (isAdminRoute()) {
+<nav class="navbar navbar-expand-lg bg-light py-2 border-top border-secondary">
+  <div class="container text-center d-flex justify-content-center align-items-center">
+    <ul class="navbar-nav">
+      @for (item of adminItems; track $index) {
+      <li class="nav-item" routerLinkActive="nav-underline">
+        <a class="nav-link f3 fw-bold text-secondary" [routerLink]="item.link" routerLinkActive="active">{{
+          item.label}}</a>
+      </li>
+      }
+    </ul>
+  </div>
+</nav>
+}

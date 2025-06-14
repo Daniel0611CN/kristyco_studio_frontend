@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { StorageService } from './storage.service';
+import { StorageService } from '../components/shared/services/storage.service';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -12,8 +12,6 @@ export class AuthService {
   httpClient = inject(HttpClient);
   storageService = inject(StorageService);
 
-  private apiAuthUrl = environment.apiUrl + '/auth';
-
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -22,7 +20,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any> {
     return this.httpClient.post(
-      this.apiAuthUrl + '/login',
+      `${environment.apiUrl}/auth/login`,
       {
         username,
         password
@@ -44,7 +42,7 @@ export class AuthService {
     };
 
     return this.httpClient.post(
-      this.apiAuthUrl + '/register',
+      `${environment.apiUrl}/auth/register`,
       JSON.stringify(registerRequest),
       this.httpOptions
     );

@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2';
+import { TokenService } from '../../../services/token.service';
+import { SwalService } from '../../shared/services/swal.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,21 +12,24 @@ import Swal from 'sweetalert2';
   templateUrl: './reset-password.component.html'
 })
 export class ResetPasswordComponent implements OnInit {
+
+  tokenService = inject(TokenService);
+  route = inject(ActivatedRoute);
+  http = inject(HttpClient);
+  fb = inject(FormBuilder);
+  router = inject(Router);
+  swalService = inject(SwalService);
+
   resetForm: FormGroup;
 
-  isTokenValid: boolean = false;
-  // oldPasswordValid: boolean = true;
-  token: string = '';
-  mensaje: string = '';
-
-  route = inject(ActivatedRoute);
-  fb = inject(FormBuilder);
-  http = inject(HttpClient);
-  router = inject(Router);
+  token = signal<string>('');
+  mensaje = signal<string>('');
+  isTokenValid = signal<boolean>(false);
+  showPassword = signal<boolean>(false);
+  showConfirmPassword = signal<boolean>(false);
 
   constructor() {
     this.resetForm = this.fb.group({
-      // oldPassword: ['', [Validators.required]],
       password: [
         '',
         [
@@ -39,84 +43,26 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.token = this.route.snapshot.paramMap.get('token') || '';
+    this.token.set(this.route.snapshot.paramMap.get('token') || '');
     this.verificarToken();
   }
 
   verificarToken() {
-    this.http.get<{ message: string, valid: boolean }>(
-      `https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/validate-reset-token?token=${this.token}`
-    ).subscribe({
+    this.tokenService.validateResetToken(this.token()).subscribe({
       next: res => {
-        this.isTokenValid = res.valid;
-        this.mensaje = res.message || 'Cuenta confirmada correctamente.';
+        this.isTokenValid.set(res.valid);
+        this.mensaje.set(res.message || 'Cuenta confirmada correctamente.');
       },
-      error: err => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Token inválido',
-          text: err.error?.Message || 'El token ha expirado o no es válido.',
-          confirmButtonText: 'Aceptar'
-        }).then(() => this.router.navigate(['/login']));
-      }
+      error: err => this.swalService.showError('Token inválido', err.error?.Message || 'El token ha expirado o no es válido.').then(() => this.router.navigate(['/login']))
     });
   }
 
-  passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password');
-    const confirmPassword = form.get('confirmPassword');
+  passwordMatchValidator({ value: { password, confirmPassword }, get }: FormGroup): null {
+    const confirmCtrl = get('confirmPassword');
+    if (!confirmCtrl) return null;
 
-    if (!password || !confirmPassword) return null;
-
-    if (confirmPassword.errors && !confirmPassword.errors['mismatch']) {
-      return null;
-    }
-
-    if (password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ mismatch: true });
-    } else {
-      confirmPassword.setErrors(null);
-    }
+    confirmCtrl.setErrors(password !== confirmPassword ? { mismatch: true } : null);
     return null;
-  }
-
-  // validateOldPassword(): void {
-  //   const oldPassword = this.oldPassword?.value;
-
-  //   if (!oldPassword) return;
-
-  //   this.http.post<{ valid: boolean, message?: string }>(
-  //     'https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/validate-old-password',
-  //     {
-  //       token: this.token,
-  //       oldPassword: oldPassword
-  //     }
-  //   ).subscribe({
-  //     next: (res) => {
-  //       this.oldPasswordValid = res.valid;
-  //       if (!res.valid) {
-  //         this.resetForm.get('oldPassword')?.setErrors({ incorrect: true });
-  //       } else {
-  //         // Limpia el error si es válido
-  //         this.resetForm.get('oldPassword')?.setErrors(null);
-  //       }
-  //     },
-  //     error: () => {
-  //       this.oldPasswordValid = false;
-  //       this.resetForm.get('oldPassword')?.setErrors({ incorrect: true });
-  //     }
-  //   });
-  // }
-
-  showPassword: boolean = false;
-  showConfirmPassword: boolean = false;
-
-  togglePassword(): void {
-    this.showPassword = !this.showPassword;
-  }
-
-  toggleConfirmPassword(): void {
-    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   onSubmit() {
@@ -124,30 +70,13 @@ export class ResetPasswordComponent implements OnInit {
 
     const { password } = this.resetForm.value;
 
-    this.http.put(`https://kristyco-studio-proyect.onrender.com/api/v1/confirmation_token/reset-password`, {
-      token: this.token,
-      password: password
-    }).subscribe({
-      next: () => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Contraseña actualizada',
-          text: 'Ahora puedes iniciar sesión con tu nueva contraseña.',
-          confirmButtonText: 'Aceptar'
-        }).then(() => this.router.navigate(['/login']));
-      },
-      error: err => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: err.error?.message || 'No se pudo restablecer la contraseña.',
-          confirmButtonText: 'Aceptar'
-        });
-      }
+    this.tokenService.resetPassword(this.token(), password).subscribe({
+      next: () => this.swalService.showSuccess('Contraseña actualizada', 'Ahora puedes iniciar sesión con tu nueva contraseña.').then(() => this.router.navigate(['/login'])),
+      error: err => this.swalService.showError('Error', err.error?.message || 'No se pudo restablecer la contraseña.')
     });
   }
 
-  // get oldPassword() { return this.resetForm.get('oldPassword'); }
   get password() { return this.resetForm.get('password'); }
   get confirmPassword() { return this.resetForm.get('confirmPassword'); }
+
 }

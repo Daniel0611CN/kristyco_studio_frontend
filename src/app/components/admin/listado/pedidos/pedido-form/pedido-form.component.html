@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h5 class="modal-title font2 fw-bold" id="pedidoFormModalLabel">Ver / Editar Pedido {{ pedido()?.id }}</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+    (click)="cancelarEdicion()"></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="editForm" (ngSubmit)="guardarCambios()">
+    @for (field of formFields; track field.key) {
+    <div class="mb-3 d-inline-block align-top" [class.col-6]="field.col" [class.col-12]="!field.col">
+      <div class="row text-dark justify-content-start">
+        <label [for]="field.key" class="col form-label fw-bold">{{ field.label }}</label>
+      </div>
+      <div class="input-group">
+        @if (field.key === 'estado' && field.options) {
+        <select [id]="field.key" formControlName="estado" class="form-select border-secondary">
+          @for (option of field.options; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+        } @else if (field.key === 'productos') {
+        <div class="p-2 w-100" style="min-height: 40px; overflow-y: auto;">
+          @for(producto of pedido()?.productos; track producto.id) {
+          <span class="badge rounded-pill bg-secondary text-white me-1 mb-1">{{ producto.nombre }}</span>
+          } @empty {
+          <small class="text-muted">No hay productos en este pedido.</small>
+          }
+        </div>
+        }
+        @else if (field.key === 'estadoPago') {
+        <input [readonly]="true" class="form-control border-secondary"
+          [value]="editForm.value.estadoPago | estadoPagoPipe" />
+        } @else if (field.key === 'metodoPago') {
+        <input [readonly]="true" class="form-control border-secondary me-1"
+          [value]="editForm.value.metodoPago | metodoPagoPipe" />
+        } @else {
+        <input [id]="field.key" [type]="field.type || 'text'" [formControlName]="field.key" [readonly]="field.readonly"
+          class="form-control border-secondary"
+          [class.is-invalid]="formControl[field.key].invalid && formControl[field.key].touched">
+        @if (field.span) {
+        <span class="input-group-text me-1 border-secondary">{{ field.span }}</span>
+        }
+        }
+      </div>
+      @if (formControl[field.key].invalid && formControl[field.key].touched) {
+      <div class="invalid-feedback d-block">
+        @if (formControl[field.key].errors?.['required']) {
+        <span>Este campo es obligatorio.</span>
+        }
+        @if (formControl[field.key].errors?.['min']) {
+        <span>El valor debe ser positivo.</span>
+        }
+      </div>
+      }
+    </div>
+    }
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelarEdicion()">Cancelar</button>
+  <button type="submit" class="btn btn-outline-danger text-dark border-secondary" (click)="guardarCambios()"
+    [disabled]="editForm.invalid">Guardar Cambios</button>
+</div>

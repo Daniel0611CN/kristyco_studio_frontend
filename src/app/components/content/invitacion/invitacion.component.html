@@ -1,30 +1,57 @@
-<section class="s1 container-xl mt-5">
-  <div class="font6">Invitación {{currentTitle}}</div>
+<div class="container my-4 mt-5 pt-5">
+  <h2 class="text-center text-capitalize mb-4">
+    Invitaciones de la colección "{{ coleccionActual() }}"
+  </h2>
 
-  <div class="container mx-auto mt-5 row justify-content-center">
-    <div *ngFor="let item of currentItems; let i = index" class="justify-content-center"
-      [ngClass]="{'col-md-6': itemsPerPage === 2, 'col-md-4': itemsPerPage === 3}">
-      <div class="card border-0 rounded-0 p-3 mt-4" style="transition: transform 0.3s ease;">
-        <button type=" button" class="btn btn-primary p-0 border-0" [attr.aria-controls]="'modal' + item.id">
-          <img [src]="item.src" class="car-img-top img-fluid" style="width: 100%;" alt="{{item.title}}" />
-        </button>
+  @if (productosFiltrados().length > 0) {
+  <div id="carouselInvitaciones" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      @for (item of productosFiltrados(); track $index) {
+      <div class="carousel-item" [class.active]="$index === 0">
+        <div class="d-flex justify-content-center">
+          <button type="button" class="btn p-0 border-0" data-bs-toggle="modal"
+            [attr.data-bs-target]="'#modal' + item.id">
+            <img [src]="item.imagen" class="img-fluid rounded shadow" alt="{{ item.nombre }}"
+              style="max-height: 500px;" />
+          </button>
+        </div>
+        <div class="text-center mt-3 fs-4">{{ item.nombre }}</div>
+      </div>
+      }
+    </div>
 
-        <div class="modal fade" [id]="'modal' + item.id" tabindex="-1" [attr.aria-labelledby]="'modalLabel' + item.id"
-          aria-hidden="true">
-          <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
-              <div class="modal-body mt-5 pt-5">
-                <img [src]="item.src" class="img-fluid" style="width: 900px;" alt="{{item.title}}" />
-              </div>
-              <div class="modal-footer border-0 mb-5 pb-5 d-flex justify-content-center align-items-center">
-                <button type="button" class="btn btn-success">Close</button>
-              </div>
-            </div>
-          </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselInvitaciones" data-bs-slide="prev">
+      <i class="fa-solid fa-chevron-left fs-2 text-secondary"></i>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselInvitaciones" data-bs-slide="next">
+      <i class="fa-solid fa-chevron-right fs-2 text-secondary"></i>
+    </button>
+  </div>
+
+  @for (item of productosFiltrados(); track item.id) {
+  <div class="modal fade" [id]="'modal' + item.id" tabindex="-1" aria-labelledby="modalLabel + item.id"
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font2 fw-bold" [id]="'modalLabel' + item.id">{{ item.nombre }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img [src]="item.imagen" alt="{{ item.nombre }}" class="img-fluid rounded shadow" style="max-height: 100%;" />
         </div>
       </div>
     </div>
   </div>
-</section>
-
-<!-- .card:hover { transform: scale(1.02); } -->
+  }
+  } @else {
+  <h4 class="font2 fs-5">No hay invitaciones disponibles para esta colección.</h4>
+  }
+  <div class="mb-3 mt-3">
+    @if (coleccionActual()) {
+    <button type="button" class="btn btn-outline-secondary" (click)="volver()">
+      <i class="fa-solid fa-arrow-left me-2"></i> Volver
+    </button>
+    }
+  </div>
+</div>

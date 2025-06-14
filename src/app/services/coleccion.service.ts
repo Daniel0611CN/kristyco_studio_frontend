@@ -15,5 +15,20 @@ export class ColeccionService {
     return this.httpClient.get<any>(this.apiCategoriaUrl);
   }
 
+  create(categoria: any): Observable<any> {
+    return this.httpClient.post<any>(this.apiCategoriaUrl, categoria);
+  }
+
+  one(id: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiCategoriaUrl}/${id}`);
+  }
+
+  update(id: number, categoria: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.apiCategoriaUrl}/${id}`, categoria);
+  }
+
+  delete(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiCategoriaUrl}/${id}`);
+  }
 
 }

@@ -1,0 +1,174 @@
+<div class="container-fluid">
+  <div class="text-center fs-2 pt-5 pb-2">{{ title() }}</div>
+
+  <div class="container">
+    <div class="d-flex justify-content-start mb-4 d-none d-md-block" style="max-width: 325px;">
+      <app-search (search)="onSearch($event)"></app-search>
+    </div>
+    <div class="d-flex justify-content-between mb-4 d-md-none">
+      <app-search (search)="onSearch($event)" class="flex-grow-1"></app-search>
+    </div>
+
+    <div class="table-responsive d-none d-md-block transition-opacity">
+      <table class="table table-hover">
+        <thead>
+          <tr class="text-center text-dark">
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'ID'" [fieldQueryInput]="'id'"
+                (orderOuput)="onChangeOrder($event)"></app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Coste de Envío'"
+                [fieldQueryInput]="'costeEnvio'" (orderOuput)="onChangeOrder($event)"></app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Dirección'" [fieldQueryInput]="'direccion'"
+                (orderOuput)="onChangeOrder($event)"></app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Estado'" [fieldQueryInput]="'estado'"
+                (orderOuput)="onChangeOrder($event)"></app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Fecha'" [fieldQueryInput]="'fecha'"
+                (orderOuput)="onChangeOrder($event)"></app-column-sort>
+            </th>
+            <th>
+              <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Total'" [fieldQueryInput]="'total'"
+                (orderOuput)="onChangeOrder($event)"></app-column-sort>
+            </th>
+            <th>
+              Acciones
+              <button class="border-0 bg-transparent" (click)="onClearOrder()">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (listaPedidos().length > 0) {
+          @for (pedido of listaPedidos(); track pedido.id) {
+          <tr class="text-center">
+            <td>{{ pedido.id }}</td>
+            <td>{{ pedido.costeEnvio }}</td>
+            <td>{{ pedido.direccion }}</td>
+            <td>{{ pedido.estado | estadoPedidoPipe }}</td>
+            <td>{{ pedido.fecha }}</td>
+            <td>{{ pedido.total }}€</td>
+            <td>
+              <button class="bg-transparent border-0 text-secondary" data-bs-toggle="modal"
+                (click)="prepararEdicion(pedido)" data-bs-target="#exampleModalVer">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button class="bg-transparent border-0 text-secondary" (click)="showDelete(pedido.id)">
+                <i class="fa-solid fa-box-archive"></i>
+              </button>
+            </td>
+          </tr>
+          }
+          } @else {
+          <tr>
+            <td [attr.colspan]="7" class="text-center">Ningún pedido encontrado.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-md-none">
+      @if (listaPedidos().length > 0) {
+      <div class="row fw-bold mb-3 px-2">
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'ID'" [fieldQueryInput]="'id'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Coste'" [fieldQueryInput]="'costeEnvio'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Dirección'" [fieldQueryInput]="'direccion'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Estado'" [fieldQueryInput]="'estado'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Fecha'" [fieldQueryInput]="'fecha'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-6 mb-1">
+          <app-column-sort [activeSort]="currentSort()" [fieldInput]="'Total'" [fieldQueryInput]="'total'"
+            (orderOuput)="onChangeOrder($event)">
+          </app-column-sort>
+        </div>
+        <div class="col-12 d-flex align-items-center justify-content-end pt-2 border-top">
+          <button class="border-0 bg-transparent" (click)="onClearOrder()"><i class="fa-solid fa-ban"></i></button>
+        </div>
+      </div>
+
+      @for (pedido of listaPedidos(); track pedido.id) {
+      <div class="card mb-3 rounded shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title fw-bolder mb-3 font2">Pedido {{ pedido.id }}</h5>
+          <div class="card-text">
+            <div class="row mb-2">
+              <div class="col-5 fw-bold">Coste Envío:</div>
+              <div class="col-7">{{ pedido.costeEnvio }}€</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-5 fw-bold">Dirección:</div>
+              <div class="col-7">{{ pedido.direccion }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-5 fw-bold">Estado:</div>
+              <div class="col-7">{{ pedido.estado | estadoPedidoPipe }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-5 fw-bold">Fecha:</div>
+              <div class="col-7">{{ pedido.fecha }}</div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-5 fw-bold">Total:</div>
+              <div class="col-7">{{ pedido.total }}€</div>
+            </div>
+            <div class="d-flex justify-content-around border-top pt-2 mt-3 me-4">
+              <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" (click)="prepararEdicion(pedido)"
+                data-bs-target="#exampleModalVer">
+                <i class="fa-solid fa-pen-to-square me-1"></i> Editar
+              </button>
+              <button class="btn btn-sm btn-outline-secondary ms-5" (click)="showDelete(pedido.id)">
+                <i class="fa-solid fa-box-archive me-1"></i> Archivar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+      } @else {
+      <td [attr.colspan]="6" class="text-center">Ningún pedido encontrado.</td>
+      }
+    </div>
+    <div class="mt-4 d-flex justify-content-center">
+      <app-paginator [pageInput]="page()" [sizeInput]="pageSize()" [totalInput]="totalSize()"
+        (pageOuput)="onChangePage($event)"></app-paginator>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalVer" tabindex="-1" aria-labelledby="exampleModalLabelVer" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      @if (pedidoSeleccionado()) {
+      <app-pedido-form [pedido]="pedidoSeleccionado()" (formSaved)="onPedidoUpdated($event)" />
+      }
+
+    </div>
+  </div>
+</div>

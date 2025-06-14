@@ -13,11 +13,11 @@ export class PedidoService {
 
   httpClient = inject(HttpClient);
 
-  getWithFilters(orderOutput?: { fieldQuery: string; order: string }, page?: number, search?: string, size: number = 10): Observable<Page<Pedido> | Pedido[]> {
+  getWithFilters(orderOuput?: { fieldQuery: string; order: string }, page?: number, search?: string, size: number = 10): Observable<Page<Pedido> | Pedido[]> {
     let queryParams: { sort?: string; page?: number; size?: number; direccion?: string; estado?: string; } = {};
 
-    if (orderOutput) {
-      queryParams.sort = orderOutput.fieldQuery + ',' + orderOutput.order;
+    if (orderOuput) {
+      queryParams.sort = orderOuput.fieldQuery + ',' + orderOuput.order;
     }
 
     if (page) {

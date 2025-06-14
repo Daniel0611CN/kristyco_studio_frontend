@@ -1,92 +1,53 @@
-import { Component } from '@angular/core';
-import { CommonModule, NgClass } from '@angular/common';
+import { Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ProductoService } from '@app/services/invitacion.service';
+import { Producto } from '@app/models/interfaces/entities/producto.interface';
 
 @Component({
   selector: 'app-invitacion',
-  imports: [CommonModule, NgClass],
+  imports: [CommonModule],
   templateUrl: './invitacion.component.html'
 })
-export class InvitacionComponent {
+export class InvitacionComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly productoService = inject(ProductoService);
+  private readonly location = inject(Location);
+  readonly destroyRef = inject(DestroyRef);
 
-  invitaciones = [
-    { id: 1, src: '../../img/4.jpg', title: 'Alas de Cristal' },
-    { id: 2, src: '../../img/5.jpg', title: 'Brisa de Fiesta' },
-    { id: 3, src: '../../img/6.jpg', title: 'Vuelo de Amor' }
-  ];
+  readonly coleccionActual = signal<string>('');
+  readonly productosFiltrados = signal<Producto[]>([]);
 
-  currentPage = 0;
-  itemsPerPage = 2;
-  totalPages = Math.ceil(this.invitaciones.length / this.itemsPerPage);
+  ngOnInit(): void {
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: ParamMap) => {
+        const nombre = params.get('nombre')?.toLowerCase() ?? '';
+        this.coleccionActual.set(nombre);
+        console.log(nombre);
 
-  get currentItems() {
-    const start = this.currentPage * this.itemsPerPage;
-    return this.invitaciones.slice(start, start + this.itemsPerPage);
+        this.productoService
+      .getAll()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(productos => {
+        const items = Array.isArray(productos)
+          ? productos
+          : productos.content ?? [];
+
+        const filtrados = items.filter((p: Producto) =>
+          p.imagen?.toLowerCase().includes(`coleccion-${nombre}`) ||
+          p.categoria?.nombre?.toLowerCase() === nombre
+        );
+
+        this.productosFiltrados.set(filtrados);
+        console.log(this.productosFiltrados());
+      });
+
+      });
   }
 
-  // Nuevo getter para el título
-  get currentTitle(): string {
-    return this.currentItems.length > 0 ? this.currentItems[0].title : 'Invitación';
+  volver(): void {
+    this.location.back();
   }
-
-  ngOnInit() {
-    this.updateItemsPerPage();
-  }
-
-  updateItemsPerPage() {
-    this.itemsPerPage = this.invitaciones.length === 3 ? 3 : 2;
-    this.totalPages = Math.ceil(this.invitaciones.length / this.itemsPerPage);
-  }
-
-  nextPage() {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-    }
-  }
-
-  previousPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-    }
-  }
-
 }
-
-// .f1 {
-//   font-family: "SophiaMorgant", sans-serif;
-// }
-// .f2 {
-//   font-family: "Raleway", sans-serif;
-// }
-// .n i {
-//   font-size: 30px;
-// }
-// body {
-//   background: #f3d8cd;
-// }
-// body .s1 {
-//   display: grid;
-//   grid-template-columns: 1fr;
-// }
-// body .s1 div {
-//   font-size: 3.5rem;
-//   font-weight: 400;
-// }
-// @media only screen and (min-width: 768px) {
-//   body .s1 {
-//     grid-template-columns: 1fr 1fr;
-//   }
-//   body .s1 div {
-//     grid-column: 1/3;
-//   }
-//   body .s1 .ss1 {
-//     grid-column: 1/2;
-//   }
-//   body .s1 .ss2 {
-//     grid-column: 2/3;
-//   }
-// }
-// body .s1 section {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }

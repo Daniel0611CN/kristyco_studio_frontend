@@ -1,5 +1,131 @@
-<div class="mt-5 mb-5">Nombre de Usuario: {{ usuario.nombre }}</div>
+<div style="background-color: #f4e9df; padding: 2rem 0; margin-top: 125px;" class="pt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow rounded-4" style="border: 1px solid #b0817e; background-color: #ffffff;">
+          <div class="card-body p-4">
+            <h4 class="text-center mb-3 font2 fw-bold" style="color: #707070;">Perfil de Usuario</h4>
 
-<button class="btn btn-secondary">Cambiar contraseña</button>
-<br><br>
-<button class="btn btn-secondary">Eliminar Cuenta</button>
+            <div>
+              <p class="mb-1"><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido1 }} {{ usuario.apellido2
+                }}</p>
+              <p class="mb-1"><strong>Email:</strong> {{ usuario.email }}</p>
+              <p class="mb-1"><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+              <p class="mb-0"><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+            </div>
+
+            <hr class="my-4" style="color: #e9c0a9;" />
+
+            <div class="d-grid gap-2 mb-3">
+              <button type="button" class="btn w-100 font2 fw-bold" data-bs-toggle="modal"
+                data-bs-target="#passwordChangeModal" style="background-color: #dda39d; color: white;">
+                Cambiar Contraseña
+              </button>
+            </div>
+
+            <button class="btn w-100 font2 fw-bold" (click)="eliminarUsuario()"
+              style="background-color: #f3d8cd; color: #707070; border: 1px solid #e9c0a9;">
+              Eliminar Cuenta
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="passwordChangeModal" tabindex="-1" aria-labelledby="passwordChangeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border: 1px solid #b0817e;">
+      <div class="modal-header" style="border-bottom: 1px solid #e9c0a9;">
+        <h5 class="modal-title font2 fw-bolder" id="passwordChangeModalLabel">Cambiar Contraseña</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="passwordForm" (ngSubmit)="cambiarPassword()" id="passwordChangeForm">
+          <div class="form-group mb-3">
+            <label for="oldPasswordModal" class="form-label">Antigua Contraseña</label>
+            <div class="input-group">
+              <input id="oldPasswordModal" [type]="showPassword ? 'text' : 'password'" class="form-control"
+                formControlName="oldPassword" (blur)="validateOldPassword()"
+                [ngClass]="{ 'is-invalid': oldPassword?.invalid && (oldPassword?.touched || oldPassword?.dirty) }"
+                style="border: 1px solid #b0817e;">
+              <button type="button" class="btn btn-outline-secondary" (click)="togglePassword()"
+                style="border: 1px solid #b0817e; color: #b0817e;">
+                <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </button>
+            </div>
+            <div *ngIf="oldPassword?.invalid && (oldPassword?.touched || oldPassword?.dirty)"
+              class="invalid-feedback d-block">
+              <div *ngIf="oldPassword?.errors?.['required']">La contraseña es obligatoria.</div>
+              <div *ngIf="oldPassword?.errors?.['incorrect']">La contraseña introducida no es correcta.</div>
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label for="newPasswordModal" class="form-label">Nueva Contraseña</label>
+            <div class="input-group">
+              <input id="newPasswordModal" [type]="showNewPassword ? 'text' : 'password'" class="form-control"
+                formControlName="newPassword"
+                [ngClass]="{ 'is-invalid': newPassword?.invalid && (newPassword?.dirty || newPassword?.touched) }"
+                style="border: 1px solid #b0817e;">
+              <button type="button" class="btn btn-outline-secondary" (click)="toggleNewPassword()"
+                style="border: 1px solid #b0817e; color: #b0817e;">
+                <i class="fa-solid" [ngClass]="showNewPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </button>
+            </div>
+            <div class="mt-2" *ngIf="newPassword?.value?.length > 0 && !isPasswordStrong">
+              <small [style.color]="hasLength ? '#198754' : '#dc3545'" class="d-block" style="font-weight: 400;">
+                <span class="me-1">{{ hasLength ? '✔' : '✖' }}</span> Debe tener entre 8 y 20 caracteres.
+              </small>
+              <small [style.color]="hasLowercase ? '#198754' : '#dc3545'" class="d-block" style="font-weight: 400;">
+                <span class="me-1">{{ hasLowercase ? '✔' : '✖' }}</span> Debe contener al menos 3 minúsculas.
+              </small>
+              <small [style.color]="hasUppercase ? '#198754' : '#dc3545'" class="d-block" style="font-weight: 400;">
+                <span class="me-1">{{ hasUppercase ? '✔' : '✖' }}</span> Debe contener al menos 2 mayúsculas.
+              </small>
+              <small [style.color]="hasNumber ? '#198754' : '#dc3545'" class="d-block" style="font-weight: 400;">
+                <span class="me-1">{{ hasNumber ? '✔' : '✖' }}</span> Debe contener al menos 2 números.
+              </small>
+              <small [style.color]="hasSpecialChar ? '#198754' : '#dc3545'" class="d-block" style="font-weight: 400;">
+                <span class="me-1">{{ hasSpecialChar ? '✔' : '✖' }}</span> Debe contener al menos un carácter especial.
+              </small>
+            </div>
+            <div *ngIf="newPassword?.invalid && (newPassword?.dirty || newPassword?.touched)"
+              class="invalid-feedback d-block">
+              <div *ngIf="newPassword?.errors?.['required']">El campo es obligatorio.</div>
+              <div *ngIf="newPassword?.errors?.['passwordStrength'] && !newPassword?.errors?.['required']">La contraseña
+                no cumple los requisitos.</div>
+            </div>
+          </div>
+          <div class="form-group mb-1">
+            <label for="repeatPasswordModal" class="form-label">Repetir Nueva Contraseña</label>
+            <div class="input-group">
+              <input id="repeatPasswordModal" [type]="showRepeatPassword ? 'text' : 'password'" class="form-control"
+                formControlName="repeatPassword"
+                [ngClass]="{ 'is-invalid': repeatPassword?.invalid && (repeatPassword?.touched || repeatPassword?.dirty) }"
+                style="border: 1px solid #b0817e;">
+              <button type="button" class="btn btn-outline-secondary" (click)="toggleRepeatPassword()"
+                style="border: 1px solid #b0817e; color: #b0817e;">
+                <i class="fa-solid" [ngClass]="showRepeatPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </button>
+            </div>
+            <div *ngIf="repeatPassword?.invalid && (repeatPassword?.touched || repeatPassword?.dirty)"
+              class="invalid-feedback d-block">
+              <div *ngIf="repeatPassword?.errors?.['required']">Campo obligatorio.</div>
+              <div *ngIf="repeatPassword?.errors?.['mismatch']">Las contraseñas no coinciden.</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style="border-top: 1px solid #e9c0a9;">
+        <button type="button" class="btn" data-bs-dismiss="modal"
+          style="background-color: #707070; color: white;">Cancelar</button>
+        <button type="submit" form="passwordChangeForm" class="btn" [disabled]="passwordForm.invalid"
+          style="background-color: #dda39d; color: white; border: none;">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
