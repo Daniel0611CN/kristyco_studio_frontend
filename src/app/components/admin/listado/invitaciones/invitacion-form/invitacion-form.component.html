@@ -53,7 +53,7 @@
     <div class="mb-3">
       <label for="imagen" class="form-label text-dark fw-bold">Imagen</label>
       <input type="text" id="imagen" class="form-control border-secondary" formControlName="imagen"
-        [class.is-invalid]="imagen?.invalid && (imagen?.dirty || imagen?.touched)">
+        [class.is-invalid]="imagen?.invalid && (imagen?.dirty || imagen?.touched)" placeholder="Url de Imagen">
       @if (imagen?.invalid && (imagen?.dirty || imagen?.touched)) {
       <div class="invalid-feedback">
         @if (imagen?.errors?.['required']) {
