@@ -293,7 +293,7 @@ export class DashBoardComponent implements OnInit {
 
   private prepararDatosParaGraficos(distribucion: { [k: string]: number }, porMes: { [k: number]: number }, totalPedidos: number) {
     const coloresEstado: { [key: string]: string } = {
-        'PENDIENTE': '#e9c0a9', 'EN_CAMINO': '#707070', 'ENTREGADO': '#b0817e', 'CANCELADO': '#d9534f'
+        'Pendiente': '#e9c0a9', 'EN_CAMINO': '#707070', 'ENTREGADO': '#b0817e', 'CANCELADO': '#d9534f'
     };
     this.distributionData = Object.keys(distribucion).map(estado => ({
       state: estado,
