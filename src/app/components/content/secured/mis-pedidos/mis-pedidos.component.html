@@ -1,1 +1,63 @@
-<p>mis-pedidos works!</p>,
+<div class="container my-5">
+  <h1 class="font2 fw-bold fs-2 mb-4 border-bottom pb-3">Mis Pedidos</h1>
+
+  @if (isLoading) {
+  <div class="text-center">
+    <div class="spinner-border" style="color: #b0817e;" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Cargando tus pedidos...</p>
+  </div>
+  }
+
+  <div class="pedidos-list">
+    @for (pedido of pedidos; track pedido.id) {
+    <div class="card shadow-sm mb-4" style="border: 1px solid #e0d8d3; border-left: 5px solid #b0817e;">
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #f9f5f1;">
+        <div>
+          <h5 class="mb-0 font2 fw-bold">Pedido #{{ pedido.id }}</h5>
+          <small class="text-muted"><i class="fa-regular fa-calendar-alt me-1"></i> {{ pedido.fecha | date:'dd/MM/yyyy'
+            }}</small>
+        </div>
+        <span class="badge rounded-pill fs-6" [ngClass]="getBadgeColor(pedido.estado)">
+          {{ pedido.estado | titlecase }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="font2 fw-bold">Detalles del Pedido</h6>
+            <p class="mb-1"><i class="fa-solid fa-truck me-2 text-muted"></i> <strong>Dirección:</strong> {{
+              pedido.direccion }}</p>
+            <p class="mb-1"><i class="fa-solid fa-euro-sign me-2 text-muted"></i> <strong>Coste Envío:</strong> {{
+              pedido.costeEnvio | currency:'EUR' }}</p>
+            <p class="mb-0 fs-5 fw-bold"><i class="fa-solid fa-wallet me-2 text-muted"></i> <strong>Total:</strong> {{
+              pedido.total | currency:'EUR' }}</p>
+          </div>
+
+          <div class="col-md-6 mt-3 mt-md-0">
+            <h6 class="font2 fw-bold">Productos</h6>
+            <ul class="list-group list-group-flush">
+              @for (producto of pedido.productos; track producto.id) {
+              <li class="list-group-item d-flex justify-content-between align-items-center ps-0">
+                {{ producto.nombre }}
+                <span class="text-muted">{{ producto.precio | currency:'EUR' }}</span>
+              </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    } @empty {
+    @if (!isLoading) {
+    <div class="text-center p-5 border rounded" style="background-color: #fdfaf7;">
+      <i class="fa-solid fa-box-open fa-3x text-muted mb-3"></i>
+      <h4 class="font2">Aún no has realizado ningún pedido</h4>
+      <p class="text-muted">¡Explora nuestros productos y encuentra algo que te encante!</p>
+    </div>
+    }
+    }
+  </div>
+</div>
