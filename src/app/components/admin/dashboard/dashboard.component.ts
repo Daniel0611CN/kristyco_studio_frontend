@@ -154,6 +154,7 @@ export class DashBoardComponent implements OnInit {
     }
 
     this.pedidosEsteMes = contadorPedidosMes;
+    console.log(this.pedidosEsteMes);
     this.prepararDatosParaGraficos(distribucion, porMes, pedidos.length);
   }
 
