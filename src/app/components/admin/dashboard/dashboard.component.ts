@@ -30,6 +30,7 @@ export class DashBoardComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    console.log("a");
     this.cargarDatosDelDashboard();
     this.getPedidosEsteMes();
   }
