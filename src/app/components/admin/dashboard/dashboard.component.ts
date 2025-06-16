@@ -43,6 +43,7 @@ export class DashBoardComponent implements OnInit {
   getPedidosEsteMes(): void {
     this.pedidoService.getAllPedidos().subscribe((pedidos: Pedido[]) => {
       for (const pedido of pedidos) {
+        console.log("bbb");
         if (pedido.fecha) {
           console.log("aa");
           const dias = pedido.fecha.getUTCDay();
