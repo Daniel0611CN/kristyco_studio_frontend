@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SwalService } from '../../services/swal.service';
-import { environment } from '@env/environment';
 
 const channel = new BroadcastChannel('succes-paypal-channel');
 
@@ -38,7 +37,7 @@ export class PaypalComponent implements OnInit {
   paypalForm: FormGroup = this.fb.group({
     method: ['Paypal', Validators.required],
     amount: [{ value: '', disabled: true }, Validators.required],
-    currency: ['EUR', Validators.required],
+    currency: [{ value: 'EUR', disabled: true }, Validators.required],
     description: ['Pedido de invitaciones', Validators.required],
   });
 
@@ -83,7 +82,7 @@ export class PaypalComponent implements OnInit {
   onSubmit() {
     if (this.paypalForm.invalid) return;
 
-    this.http.post<PaypalResponse>(`${environment.apiUrl}/payment/create`, this.paypalForm.getRawValue()).subscribe((data) => {
+    this.http.post<PaypalResponse>(`https://kristyco-studio-proyect.onrender.com/payment/create`, this.paypalForm.getRawValue()).subscribe((data) => {
       if (data.href) {
         this.procesando = true;
         this.showFormPaypal = false;
@@ -94,7 +93,7 @@ export class PaypalComponent implements OnInit {
   }
 
   sendPolling(orderId: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/payment/success`, { params: { orderId } });
+    return this.http.get<any>(`https://kristyco-studio-proyect.onrender.com/payment/success`, { params: { orderId } });
   }
 
   onClose() {
