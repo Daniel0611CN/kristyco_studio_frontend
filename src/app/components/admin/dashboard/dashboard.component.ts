@@ -119,8 +119,8 @@ export class DashBoardComponent implements OnInit {
    * Convierte el texto "DD-MM-YYYY" en una fecha real que JavaScript entiende.
    */
   private parsearFechaDDMMYYYY(fechaStr: string): Date {
-    const parts = fechaStr.split('-'); // Divide "06-11-2005" en ["06", "11", "2005"]
-    // Creamos la fecha: new Date(año, mes - 1, día). El mes en JS va de 0 a 11.
+    const parts = fechaStr.split('-');
+    console.log(parts);
     return new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]));
   }
 
