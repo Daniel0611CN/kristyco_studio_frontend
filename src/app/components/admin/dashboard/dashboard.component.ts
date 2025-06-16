@@ -367,7 +367,6 @@ export class DashBoardComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    console.log("a");
     this.cargarDatosDelDashboard();
   }
 
@@ -397,8 +396,6 @@ export class DashBoardComponent implements OnInit {
     const porMes: { [mes: number]: number } = {};
 
     for (const pedido of pedidos) {
-      // --- AJUSTE CLAVE PARA CORREGIR EL CÁLCULO DE FECHA ---
-      // Creamos la fecha dividiendo el string para evitar problemas de zona horaria.
       const parts = (pedido.fecha as unknown as string).split('-'); // Formato YYYY-MM-DD
       const fechaPedido = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
 
@@ -413,6 +410,8 @@ export class DashBoardComponent implements OnInit {
     }
 
     this.pedidosEsteMes = contadorPedidosMes;
+    console.log(this.pedidosEsteMes);
+    console.log(porMes);
     this.prepararDatosParaGraficos(distribucion, porMes, pedidos.length);
   }
 
