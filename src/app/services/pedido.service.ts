@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Page } from '../models/interfaces/page.interface';
 import { environment } from '../../environments/environment';
 import { Pedido } from '../models/interfaces/entities/pedido.interface';
@@ -36,6 +36,10 @@ export class PedidoService {
     }
 
     return this.httpClient.get<Page<Pedido> | Pedido[]>(this.apiPedidoUrl, { params: queryParams });
+  }
+
+  getAllPedidos(): Observable<Pedido[]> {
+    return this.httpClient.get<Pedido[]>(`${this.apiPedidoUrl}/list`);
   }
 
   get(id: string): Observable<Pedido> {
