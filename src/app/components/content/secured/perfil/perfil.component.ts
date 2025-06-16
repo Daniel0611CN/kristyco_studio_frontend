@@ -1,9 +1,9 @@
 import { Component, OnInit, inject, AfterViewInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Usuario } from '../../../models/interfaces/entities/usuario.interface';
-import { UsuarioService } from '../../../services/usuario.service';
-import { StorageService } from '../../shared/services/storage.service';
+import { Usuario } from '../../../../models/interfaces/entities/usuario.interface';
+import { UsuarioService } from '../../../../services/usuario.service';
+import { StorageService } from '../../../shared/services/storage.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from '@env/environment';

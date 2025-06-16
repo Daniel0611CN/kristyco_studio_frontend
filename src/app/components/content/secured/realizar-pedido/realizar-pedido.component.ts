@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-import { PedidoService } from '../../../services/pedido.service';
-import { SwalService } from '../../shared/services/swal.service';
-import { StorageService } from '../../shared/services/storage.service';
+import { PedidoService } from '../../../../services/pedido.service';
+import { SwalService } from '../../../shared/services/swal.service';
+import { StorageService } from '../../../shared/services/storage.service';
 import { ProductoService } from '@app/services/invitacion.service';
 
-import { Pedido } from '../../../models/interfaces/entities/pedido.interface';
+import { Pedido } from '../../../../models/interfaces/entities/pedido.interface';
 import { Producto } from '@app/models/interfaces/entities/producto.interface';
 
 @Component({

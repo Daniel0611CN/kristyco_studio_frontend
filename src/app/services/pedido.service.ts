@@ -59,4 +59,8 @@ export class PedidoService {
     return this.httpClient.delete<void>(`${this.apiPedidoUrl}/${id}`);
   }
 
+  pedidosPorUsuario(id: string): Observable<Pedido[]> {
+    return this.httpClient.get<Pedido[]>(`${this.apiPedidoUrl}/${id}/pedidosPorUsuario`);
+  }
+
 }

@@ -1,10 +1,10 @@
-import { InvitacionComponent } from './components/content/invitacion/invitacion.component';
-import { ColeccionComponent } from './components/content/coleccion/coleccion.component';
-import { ContactoComponent } from './components/content/contacto/contacto.component';
-import { SobreMiComponent } from './components/content/sobre-mi/sobre-mi.component';
+import { InvitacionComponent } from './components/content/open/colecciones/coleccion/invitacion/invitacion.component';
+import { ColeccionComponent } from './components/content/open/colecciones/coleccion/coleccion.component';
+import { ContactoComponent } from './components/content/open/contacto/contacto.component';
+import { SobreMiComponent } from './components/content/open/sobre-mi/sobre-mi.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { PerfilComponent } from './components/content/perfil/perfil.component';
-import { HomeComponent } from './components/content/home/home.component';
+import { PerfilComponent } from './components/content/secured/perfil/perfil.component';
+import { HomeComponent } from './components/content/open/home/home.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { canActivateAuth } from './core/guards/auth.guard';
 import { Routes } from '@angular/router';
@@ -21,11 +21,12 @@ import { ListadoInvitacionComponent } from './components/admin/listado/invitacio
 import { ListadoColeccionComponent } from './components/admin/listado/colecciones/colecciones.component';
 import { DashBoardComponent } from './components/admin/dashboard/dashboard.component';
 import { ListadoPedidoComponent } from './components/admin/listado/pedidos/pedidos.component';
-import { ColeccionesComponent } from './components/content/colecciones/colecciones.component';
-import { AcabadosComponent } from './components/content/acabados/acabados.component';
-import { DetallesComponent } from './components/content/detalles/detalles.component';
-import { RegalosComponent } from './components/content/regalos/regalos.component';
-import { RealizarPedidoComponent } from './components/content/realizar-pedido/realizar-pedido.component';
+import { ColeccionesComponent } from './components/content/open/colecciones/colecciones.component';
+import { AcabadosComponent } from './components/content/open/colecciones/acabados/acabados.component';
+import { DetallesComponent } from './components/content/open/colecciones/detalles/detalles.component';
+import { RegalosComponent } from './components/content/open/colecciones/regalos/regalos.component';
+import { RealizarPedidoComponent } from './components/content/secured/realizar-pedido/realizar-pedido.component';
+import { MisPedidosComponent } from './components/content/secured/mis-pedidos/mis-pedidos.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent, title: 'Inicio' },
@@ -63,6 +64,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent, title: 'Registro', canActivate: [canActivateGuest] },
   { path: 'perfil', component: PerfilComponent, title: 'Perfil', canActivate: [canActivateAuth] },
   { path: 'realizar-pedido', component: RealizarPedidoComponent, title: 'Realizar Pedido', canActivate: [canActivateAuth] },
+  { path: 'mis-pedidos', component: MisPedidosComponent, title: 'Mis Pedidos', canActivate: [canActivateAuth] },
   { path: 'admin', component: DashBoardComponent, title: 'Dashboard', canActivate: [canActivateAdmin] },
   {
     path: 'listado',

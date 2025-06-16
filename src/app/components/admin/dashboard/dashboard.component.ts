@@ -140,26 +140,21 @@ import { Pedido } from '@app/models/interfaces/entities/pedido.interface';
   templateUrl: './dashboard.component.html'
 })
 export class DashBoardComponent implements OnInit {
-  // --- Servicios ---
   usuarioService = inject(UsuarioService);
   pedidoService = inject(PedidoService);
   coleccionService = inject(ColeccionService);
   productoService = inject(ProductoService);
 
-  // --- Propiedades para Tarjetas ---
   totalUsuarios = 0;
   pedidosEsteMes = 0;
   invitacionesEnviadas = 0;
   coleccionesActivas = 0;
   mensajesUsuarios: string[] = [];
 
-  // --- Propiedades para Gráficas Visuales ---
   barChartData: { month: string, count: number, height: number }[] = [];
   distributionData: { state: string, count: number, percentage: string, color: string }[] = [];
-  // --- NUEVA PROPIEDAD para el estilo del gráfico de dona ---
   donutChartStyle: string = '';
 
-  // --- Actividad Reciente ---
   actividadReciente = [
     { fecha: new Date().toISOString(), descripcion: 'Nuevo pedido #1234 realizado por Ana Pérez.' },
     { fecha: new Date(Date.now() - 3600000).toISOString(), descripcion: 'Juan García ha actualizado su perfil.' },
@@ -195,7 +190,7 @@ export class DashBoardComponent implements OnInit {
     const porMes: { [mes: number]: number } = {};
 
     for (const pedido of pedidos) {
-      const fechaPedido = new Date(pedido.fecha); // Asumimos que el formato ya es estándar
+      const fechaPedido = new Date(pedido.fecha);
       if (fechaPedido >= inicioDeMes && fechaPedido <= hoy) {
         contadorPedidosMes++;
       }
@@ -214,7 +209,6 @@ export class DashBoardComponent implements OnInit {
         'PENDIENTE': '#e9c0a9', 'EN_CAMINO': '#707070', 'ENTREGADO': '#b0817e', 'CANCELADO': '#d9534f'
     };
 
-    // 1. Preparamos los datos para la leyenda (esto ya estaba)
     this.distributionData = Object.keys(distribucion).map(estado => ({
       state: estado,
       count: distribucion[estado],
@@ -222,7 +216,6 @@ export class DashBoardComponent implements OnInit {
       color: coloresEstado[estado] || '#ccc'
     }));
 
-    // --- 2. NUEVA LÓGICA: Construimos el estilo CSS para el gráfico ---
     if (this.distributionData.length > 0) {
         let cumulativePercentage = 0;
         const gradientParts = this.distributionData.map(item => {
@@ -233,10 +226,9 @@ export class DashBoardComponent implements OnInit {
         });
         this.donutChartStyle = `background: conic-gradient(${gradientParts.join(', ')});`;
     } else {
-        this.donutChartStyle = 'background: #f0f0f0;'; // Color base si no hay datos
+        this.donutChartStyle = 'background: #f0f0f0;';
     }
 
-    // Preparar datos para gráfico de barras (sin cambios)
     const maxPedidosEnUnMes = Math.max(...Object.values(porMes), 0);
     const nombresMeses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     this.barChartData = Object.keys(porMes).map(mesKey => {

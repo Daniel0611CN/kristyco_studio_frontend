@@ -1,7 +1,7 @@
-import { Enlaces } from '../../../models/interfaces/enlace.interface';
+import { Enlaces } from '../../../../models/interfaces/enlace.interface';
 import { CommonModule, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
-import { TITLE, TEXT, LINKS } from '../../shared/content/contacto.content';
+import { TITLE, TEXT, LINKS } from '../../../shared/content/contacto.content';
 
 @Component({
   selector: 'app-contacto',
