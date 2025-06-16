@@ -28,7 +28,6 @@
 //     { fecha: new Date(Date.now() - 7200000).toISOString(), descripcion: 'Se ha registrado un nuevo usuario: marta.lopez@email.com' }
 //   ];
 
-
 //   ngOnInit(): void {
 //     this.cargarDatosDelDashboard();
 //   }
