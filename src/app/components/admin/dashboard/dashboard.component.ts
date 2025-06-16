@@ -42,7 +42,7 @@ export class DashBoardComponent implements OnInit {
 
   getPedidosEsteMes(): void {
     this.pedidoService.getAllPedidos().subscribe((pedidos: Pedido[]) => {
-      console.log("cccc");
+      console.log(pedidos.length);
       for (const pedido of pedidos) {
         console.log("bbb");
         if (pedido.fecha) {
