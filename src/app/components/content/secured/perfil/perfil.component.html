@@ -51,7 +51,7 @@
               <input id="oldPasswordModal" [type]="showPassword ? 'text' : 'password'"
                 class="form-control border-secondary" formControlName="oldPassword" (blur)="validateOldPassword()"
                 [ngClass]="{ 'is-invalid': oldPassword?.invalid && (oldPassword?.touched || oldPassword?.dirty) }">
-              <button type="button" class="btn bg-primary border-0" (click)="togglePassword()">
+              <button type="button" class="btn bg-primary border-left-0 border-secondary" (click)="togglePassword()">
                 <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
               </button>
             </div>
@@ -67,7 +67,7 @@
               <input id="newPasswordModal" [type]="showNewPassword ? 'text' : 'password'"
                 class="form-control border-secondary" formControlName="newPassword"
                 [ngClass]="{ 'is-invalid': newPassword?.invalid && (newPassword?.dirty || newPassword?.touched) }">
-              <button type="button" class="btn bg-primary border-0" (click)="toggleNewPassword()">
+              <button type="button" class="btn bg-primary border-left-0 border-secondary" (click)="toggleNewPassword()">
                 <i class="fa-solid" [ngClass]="showNewPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
               </button>
             </div>
@@ -101,7 +101,8 @@
               <input id="repeatPasswordModal" [type]="showRepeatPassword ? 'text' : 'password'"
                 class="form-control border-secondary" formControlName="repeatPassword"
                 [ngClass]="{ 'is-invalid': repeatPassword?.invalid && (repeatPassword?.touched || repeatPassword?.dirty) }">
-              <button type="button" class="btn bg-primary border-0" (click)="toggleRepeatPassword()">
+              <button type="button" class="btn bg-primary border-left-0 border-secondary"
+                (click)="toggleRepeatPassword()">
                 <i class="fa-solid" [ngClass]="showRepeatPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
               </button>
             </div>
@@ -140,8 +141,7 @@
         </p>
         <form [formGroup]="deleteForm" id="deleteForm">
           <input type="text" formControlName="confirm" class="form-control" placeholder="Escribe: eliminar mi cuenta" />
-          <div *ngIf="confirmControl?.invalid && (confirmControl?.touched || confirmControl?.dirty)"
-            class="text-danger mt-2 small">
+          <div *ngIf="confirmControl?.invalid && (confirmControl?.touched || confirmControl?.dirty)" class="mt-2 small">
             <div *ngIf="confirmControl?.errors?.['required']">Campo obligatorio.</div>
             <div *ngIf="confirmControl?.errors?.['mismatch']">El texto no coincide exactamente.</div>
           </div>
