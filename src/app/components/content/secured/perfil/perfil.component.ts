@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, AfterViewInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../../../../models/interfaces/entities/usuario.interface';
 import { UsuarioService } from '../../../../services/usuario.service';
@@ -24,6 +24,9 @@ export class PerfilComponent implements OnInit, AfterViewInit {
   http = inject(HttpClient);
   fb = inject(FormBuilder);
 
+  deleteForm: FormGroup;
+private deleteModal: any;
+
   usuario: Usuario = {
     id: '', nombre: '', apellido1: '', apellido2: '',
     email: '', telefono: '', direccion: '', enabled: false
@@ -42,6 +45,9 @@ export class PerfilComponent implements OnInit, AfterViewInit {
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       repeatPassword: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
+    this.deleteForm = this.fb.group({
+      confirm: ['', [Validators.required, this.confirmationValidator]]
+    });
   }
 
   ngOnInit(): void {
@@ -54,6 +60,10 @@ export class PerfilComponent implements OnInit, AfterViewInit {
     const modalElement = document.getElementById('passwordChangeModal');
     if (modalElement) {
       this.passwordModal = new bootstrap.Modal(modalElement);
+    }
+    const deleteModalElement = document.getElementById('deleteAccountModal');
+    if (deleteModalElement) {
+      this.deleteModal = new bootstrap.Modal(deleteModalElement);
     }
   }
 
@@ -168,7 +178,41 @@ export class PerfilComponent implements OnInit, AfterViewInit {
     return null;
   }
 
-  eliminarUsuario(): void {
+  // eliminarUsuario(): void {
+  //   this.swalService.showWarning(
+  //     '¿Eliminar cuenta?',
+  //     'Sí, eliminar',
+  //     'Esta acción no se puede deshacer. Todos tus datos se perderán permanentemente.'
+  //   ).then((result) => {
+  //     if (result.isConfirmed) {
+  //       this.http.delete(`${environment.apiUrl}/usuarios/${this.usuario.id}`).subscribe({
+  //         next: () => {
+  //           this.swalService.showSuccess('Cuenta eliminada', 'Tu cuenta ha sido eliminada correctamente.');
+  //           this.storageService.logout();
+  //         },
+  //         error: (err) => {
+  //           console.error('Error al eliminar el usuario', err);
+  //           this.swalService.showError('Error', 'No se pudo eliminar tu cuenta.');
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
+
+  confirmationValidator(control: AbstractControl): ValidationErrors | null {
+    return control.value?.trim().toLowerCase() === 'eliminar mi cuenta' ? null : { mismatch: true };
+  }
+
+  get confirmControl() {
+    return this.deleteForm.get('confirm');
+  }
+
+  confirmarEliminacion(): void {
+    if (this.deleteForm.invalid) {
+      this.deleteForm.markAllAsTouched();
+      return;
+    }
+
     this.swalService.showWarning(
       '¿Eliminar cuenta?',
       'Sí, eliminar',
@@ -177,6 +221,7 @@ export class PerfilComponent implements OnInit, AfterViewInit {
       if (result.isConfirmed) {
         this.http.delete(`${environment.apiUrl}/usuarios/${this.usuario.id}`).subscribe({
           next: () => {
+            this.deleteModal?.hide();
             this.swalService.showSuccess('Cuenta eliminada', 'Tu cuenta ha sido eliminada correctamente.');
             this.storageService.logout();
           },
@@ -188,5 +233,7 @@ export class PerfilComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+
 }
 

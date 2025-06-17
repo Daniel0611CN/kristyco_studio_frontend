@@ -23,7 +23,12 @@
               </button>
             </div>
 
-            <button class="btn w-100 font2 fw-bold" (click)="eliminarUsuario()"
+            <!-- <button class="btn w-100 font2 fw-bold" (click)="eliminarUsuario()"
+              style="background-color: #f3d8cd; color: #707070; border: 1px solid #e9c0a9;">
+              Eliminar Cuenta
+            </button> -->
+            <button type="button" class="btn w-100 font2 fw-bold" data-bs-toggle="modal"
+              data-bs-target="#deleteAccountModal"
               style="background-color: #f3d8cd; color: #707070; border: 1px solid #e9c0a9;">
               Eliminar Cuenta
             </button>
@@ -118,6 +123,40 @@
         <button type="submit" form="passwordChangeForm" class="btn" [disabled]="passwordForm.invalid"
           style="background-color: #dda39d; color: white; border: none;">
           Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border: 1px solid #b0817e;">
+      <div class="modal-header" style="border-bottom: 1px solid #e9c0a9;">
+        <h5 class="modal-title font2 fw-bolder" id="deleteAccountModalLabel">Eliminar Cuenta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Esta acción <strong>eliminará permanentemente</strong> tu cuenta y todos tus datos.
+          Para confirmar, escribe: <strong>eliminar mi cuenta</strong>
+        </p>
+        <form [formGroup]="deleteForm" id="deleteForm">
+          <input type="text" formControlName="confirm" class="form-control" placeholder="Escribe: eliminar mi cuenta" />
+          <div *ngIf="confirmControl?.invalid && (confirmControl?.touched || confirmControl?.dirty)"
+            class="text-danger mt-2 small">
+            <div *ngIf="confirmControl?.errors?.['required']">Campo obligatorio.</div>
+            <div *ngIf="confirmControl?.errors?.['mismatch']">El texto no coincide exactamente.</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style="border-top: 1px solid #e9c0a9;">
+        <button type="button" class="btn" data-bs-dismiss="modal"
+          style="background-color: #707070; color: white;">Cancelar</button>
+        <button type="submit" form="deleteForm" class="btn" [disabled]="deleteForm.invalid"
+          (click)="confirmarEliminacion()" style="background-color: #dda39d; color: white; border: none;">
+          Confirmar Eliminación
         </button>
       </div>
     </div>
