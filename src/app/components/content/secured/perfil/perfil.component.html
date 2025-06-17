@@ -23,10 +23,6 @@
               </button>
             </div>
 
-            <!-- <button class="btn w-100 font2 fw-bold" (click)="eliminarUsuario()"
-              style="background-color: #f3d8cd; color: #707070; border: 1px solid #e9c0a9;">
-              Eliminar Cuenta
-            </button> -->
             <button type="button" class="btn w-100 font2 fw-bold" data-bs-toggle="modal"
               data-bs-target="#deleteAccountModal"
               style="background-color: #f3d8cd; color: #707070; border: 1px solid #e9c0a9;">
@@ -55,7 +51,7 @@
               <input id="oldPasswordModal" [type]="showPassword ? 'text' : 'password'" class="form-control"
                 formControlName="oldPassword" (blur)="validateOldPassword()"
                 [ngClass]="{ 'is-invalid': oldPassword?.invalid && (oldPassword?.touched || oldPassword?.dirty) }">
-              <button type="button" class="btn bg-transparent border-0" (click)="togglePassword()">
+              <button type="button" class="btn bg-primary border-0" (click)="togglePassword()">
                 <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
               </button>
             </div>
@@ -71,7 +67,7 @@
               <input id="newPasswordModal" [type]="showNewPassword ? 'text' : 'password'" class="form-control"
                 formControlName="newPassword"
                 [ngClass]="{ 'is-invalid': newPassword?.invalid && (newPassword?.dirty || newPassword?.touched) }">
-              <button type="button" class="btn bg-transparent border-0" (click)="toggleNewPassword()">
+              <button type="button" class="btn bg-primary border-0" (click)="toggleNewPassword()">
                 <i class="fa-solid" [ngClass]="showNewPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
               </button>
             </div>
@@ -105,7 +101,7 @@
               <input id="repeatPasswordModal" [type]="showRepeatPassword ? 'text' : 'password'" class="form-control"
                 formControlName="repeatPassword"
                 [ngClass]="{ 'is-invalid': repeatPassword?.invalid && (repeatPassword?.touched || repeatPassword?.dirty) }">
-              <button type="button" class="btn bg-transparent border-0" (click)="toggleRepeatPassword()">
+              <button type="button" class="btn bg-primary border-0" (click)="toggleRepeatPassword()">
                 <i class="fa-solid" [ngClass]="showRepeatPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
               </button>
             </div>
